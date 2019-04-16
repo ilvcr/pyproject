@@ -46,7 +46,9 @@ class Solution(object):
             requirement 1.
         '''
         grouped_unit_price = df['unit_price'].groupby([df['city_id'], df['city_name'], df['year']])
-        return grouped_unit_price.mean()
+        grouped_unit_price_mean = grouped_unit_price.mean().unstack()
+
+        return grouped_unit_price_mean
 
     def clac_averge_wei_price(self, df):
         '''
@@ -62,10 +64,7 @@ class Solution(object):
         '''
             requirement 3.
         '''
-        YEAR = [i for i in range(2006, 2018)]
-        for i in df['year'].groupby(df['grouped_unit_price_mean']):
-            if i not in YEAR:
-                result_ddillna = df.fillna(method='ffill')
+        result_ddillna = df.fillna(method='ffill')
 
         return result_ddillna
 

@@ -9,30 +9,38 @@
 # Description: 
 #************************************************************************#
 
+import pandas as pd
 
 names = ['agree_group', 'city_id', 'city_name', 'year', 'level', 'type', 'area', 'price', 'unit_price']
-df_land_data = pd.read_excel('land_data.xlsx', names=names)
+df_land_data = pd.DataFrame(pd.read_excel('land_data.xlsx', names=names))
+#df_land_data_ = pd.read_excel('land_data.xlsx', names=names)
+#print df_land_data[:10]
+#print df_land_data_[:10]
 
-grouped_unit_price = df['unit_price'].groupby([df['city_id'], df['city_name'], df['year']])
-grouped_unit_price_mean = grouped_unit_price.mean()
 
-YEAR = [i for i in range(2006, 2018)]
-for i in df['year'].groupby(df['grouped_unit_price_mean']):
-    if i not in YEAR:
-        result_ddillna = df.fillna(method='ffill')
-
-print result_ddillna
+grouped_unit_price = df_land_data['unit_price'].groupby([df_land_data['city_id'], df_land_data['city_name'], df_land_data['year']])
+grouped_unit_price_mean = grouped_unit_price.mean().unstack()
+#print grouped_unit_price_mean[20:30]
 
 '''
-value_unit_price = df['grouped_unit_price_mean']
-standard_data = (value_unit_price - value_unit_price.min())/ \
-                (value_unit_price.max() - value_unit_price.min())
+result_ddillna = grouped_unit_price_mean.fillna(method='ffill')
+#print result_ddillna
 
-print standard_data
+'''
+
+for i in range(85):
+    value_unit_price = grouped_unit_price_mean.iloc[i]
+    standard_data = (value_unit_price - value_unit_price.min())/(value_unit_price.max() - value_unit_price.min())
+    print standard_data
+    #print pd.DataFrame('city_id','city_name',standard_data)[:5]
+standard_data.to_csv('1.csv')
 
 
-type_unitprice = type(df[['grouped_unit_price_mean']])
-count_unitprice = type_unitprice.value_counts()
 
+'''
+count_unitprice = df_land_data.groupby('type')['unit_price'].count()
 print count_unitprice
 '''
+
+
+
