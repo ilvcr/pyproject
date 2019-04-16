@@ -5,8 +5,8 @@
 # File Name: bayes_data_analysis_interview.py
 # Author: yoghourt->ilvcr 
 # Mail: liyaoliu@foxmail.com  @@  ilvcr@outlook.com 
-# Created Time: Tue Apr 16 15:13:40 2019
-# Description: Using pandas handle  
+# Created Time: Tue Apr 16 19:43:40 2019
+# Description: Using pandas handle land data 
 #************************************************************************#
 
 '''
@@ -109,7 +109,7 @@ def main():
     
     df_land_data = soldata.read_xlsx_file()
     
-    print "请注意, land_data表中: "
+    print "请注意, land_data数据表中: "
     print "********************************************************"
     soldata.find_NAN(df_land_data)
     print "********************************************************\n"
