@@ -10,6 +10,8 @@
 #************************************************************************#
 
 import pandas as pd
+import numpy as np
+
 
 class Solution(object):
     '''
@@ -24,14 +26,11 @@ class Solution(object):
         df_land_data = pd.read_excel('land_data.xlsx', names=names)
 
         return df_land_data
-
+    
+    def find_nan(self, df):
         '''
-        city_id_sort =list(sorted(set(df_land_data['city_id'])))
+            judging whether there are missing values
         '''
-     def find_nan(self, df):
-        '''
-        judging whether there are missing values
-    '''
         nan_lists = {}
         for i in df.columns:
             nan_counter = 0
@@ -41,13 +40,13 @@ class Solution(object):
                     nan_lists[i] = nan_counter
         for k, v in nan_lists.items():
             print '{}行共有{}个缺失值'.format(k, v)
-
+    
     def calc_unit_price(self, df):
         '''
             requirement 1.
         '''
         grouped_unit_price = df['unit_price'].groupby([df['city_id'], df['city_name'], df['year']])
-        print grouped_unit_price.mean()
+        return grouped_unit_price.mean()
 
     def clac_averge_wei_price(self, df):
         '''
@@ -55,8 +54,42 @@ class Solution(object):
         '''
         grouped_price = df['price'].groupby([df['city_id'], df['city_name'], df['year']])
         grouped_area = df['area'].groupby([df['city_id'], df['city_name'], df['year']])
-        print grouped_price.sum()/grouped_area.sum()
+        average_weight_price = grouped_price.sum()/grouped_area.sum()
+        
+        return average_weight_price
+
+    def comple_unit_price_data(self, df):
+        '''
+            requirement 3.
+        '''
+        YEAR = [i for i in range(2006, 2018)]
+        for i in df['year'].groupby(df['grouped_unit_price_mean']):
+            if i not in YEAR:
+                result_ddillna = df.fillna(method='ffill')
+
+        return result_ddillna
+
+    def standard_aveprice(self, df):
+        '''
+            requirement 4.
+        '''
+        value_unit_price = df['grouped_unit_price_mean']
+        standard_data = (value_unit_price - value_unit_price.min())/ \
+                        (value_unit_price.max() - value_unit_price.min())
+        
+        return standard_data
+
+    def use_type_count_unitprice(self, df):
+        '''
+            requirement 5.
+        '''
+        type_unitprice = type(df[['grouped_unit_price_mean']])
+        count_unitprice = type_unitprice.value_counts()
+
+        return count_unitprice
 
 
+if __name__ == '__main__':
+    soldata = Solution()
 
 
