@@ -15,20 +15,7 @@ class Solution(object):
     '''
         using pandas handle data
     '''
-    def find_nan(self, df):
-    '''
-        judging whether there are missing values
-    '''
-        nan_lists = {}
-        for i in df.columns:
-            nan_counter = 0
-            for j in df[i].isnull():
-                if j:
-                    nan_counter += 1
-                    nan_lists[i] = nan_counter
-        for k, v in nan_lists.items():
-            print '{}行共有{}个缺失值'.format(k, v)
-
+   
     def read_xlsx():
         '''
             read xlsx file's data
@@ -41,6 +28,20 @@ class Solution(object):
         '''
         city_id_sort =list(sorted(set(df_land_data['city_id'])))
         '''
+     def find_nan(self, df):
+        '''
+        judging whether there are missing values
+    '''
+        nan_lists = {}
+        for i in df.columns:
+            nan_counter = 0
+            for j in df[i].isnull():
+                if j:
+                    nan_counter += 1
+                    nan_lists[i] = nan_counter
+        for k, v in nan_lists.items():
+            print '{}行共有{}个缺失值'.format(k, v)
+
     def calc_unit_price(self, df):
         '''
             requirement 1.
