@@ -30,11 +30,14 @@ result_ddillna = grouped_unit_price_mean.fillna(method='ffill')
 
 for i in range(85):
     value_unit_price = grouped_unit_price_mean.iloc[i]
+    #print value_unit_price
     standard_data = (value_unit_price - value_unit_price.min())/(value_unit_price.max() - value_unit_price.min())
+    #standard_data = pd.
+    print '\n'
     print standard_data
-    #print pd.DataFrame('city_id','city_name',standard_data)[:5]
-standard_data.to_csv('1.csv')
-
+    
+    #dict_standard_data = pd.DataFrame({'year':standard_data.index, 'data':standard_data.values}, columns=['year', 'data'])
+    #print dict_standard_data
 
 
 '''
