@@ -6,7 +6,9 @@
 # Author: yoghourt->ilvcr 
 # Mail: liyaoliu@foxmail.com  @@  ilvcr@outlook.com 
 # Created Time: Sat May  4 17:13:33 2019
-# Description: 
+# Description: https://github.com/carpedm20/DCGAN-tensorflow
+#在data文件夹中再新建一个anime文件夹，把图片直接放到这个文件夹里，运行时指定--dataset anime
+#GANs:https://github.com/goodfeli/adversarial
 #************************************************************************#
 
 
@@ -33,6 +35,7 @@ def gen_random(mode, size):
 
 
 class DCGAN(object):
+
   def __init__(self, sess, input_height=108, input_width=108, crop=True,
          batch_size=64, sample_num = 64, output_height=64, output_width=64,
          y_dim=None, z_dim=100, gf_dim=64, df_dim=64,
@@ -95,15 +98,20 @@ class DCGAN(object):
     if self.dataset_name == 'mnist':
       self.data_X, self.data_y = self.load_mnist()
       self.c_dim = self.data_X[0].shape[-1]
+
     else:
       data_path = os.path.join(self.data_dir, self.dataset_name, self.input_fname_pattern)
       self.data = glob(data_path)
+
       if len(self.data) == 0:
         raise Exception("[!] No data found in '" + data_path + "'")
+
       np.random.shuffle(self.data)
       imreadImg = imread(self.data[0])
+
       if len(imreadImg.shape) >= 3: #check if image is a non-grayscale image by checking channel number
         self.c_dim = imread(self.data[0]).shape[-1]
+
       else:
         self.c_dim = 1
 
@@ -115,13 +123,16 @@ class DCGAN(object):
     self.build_model()
 
   def build_model(self):
+
     if self.y_dim:
       self.y = tf.placeholder(tf.float32, [self.batch_size, self.y_dim], name='y')
+
     else:
       self.y = None
 
     if self.crop:
       image_dims = [self.output_height, self.output_width, self.c_dim]
+
     else:
       image_dims = [self.input_height, self.input_width, self.c_dim]
 
@@ -144,8 +155,10 @@ class DCGAN(object):
     self.G_sum = image_summary("G", self.G)
 
     def sigmoid_cross_entropy_with_logits(x, y):
+
       try:
         return tf.nn.sigmoid_cross_entropy_with_logits(logits=x, labels=y)
+
       except:
         return tf.nn.sigmoid_cross_entropy_with_logits(logits=x, targets=y)
 
@@ -172,17 +185,22 @@ class DCGAN(object):
     self.saver = tf.train.Saver(max_to_keep=self.max_to_keep)
 
   def train(self, config):
+
     d_optim = tf.train.AdamOptimizer(config.learning_rate, beta1=config.beta1) \
               .minimize(self.d_loss, var_list=self.d_vars)
     g_optim = tf.train.AdamOptimizer(config.learning_rate, beta1=config.beta1) \
               .minimize(self.g_loss, var_list=self.g_vars)
+
     try:
       tf.global_variables_initializer().run()
+
     except:
       tf.initialize_all_variables().run()
 
+
     if config.G_img_sum:
       self.g_sum = merge_summary([self.z_sum, self.d__sum, self.G_sum, self.d_loss_fake_sum, self.g_loss_sum])
+
     else:
       self.g_sum = merge_summary([self.z_sum, self.d__sum, self.d_loss_fake_sum, self.g_loss_sum])
     self.d_sum = merge_summary(
@@ -194,6 +212,7 @@ class DCGAN(object):
     if config.dataset == 'mnist':
       sample_inputs = self.data_X[0:self.sample_num]
       sample_labels = self.data_y[0:self.sample_num]
+
     else:
       sample_files = self.data[0:self.sample_num]
       sample = [
@@ -204,23 +223,29 @@ class DCGAN(object):
                     resize_width=self.output_width,
                     crop=self.crop,
                     grayscale=self.grayscale) for sample_file in sample_files]
+
       if (self.grayscale):
         sample_inputs = np.array(sample).astype(np.float32)[:, :, :, None]
+
       else:
         sample_inputs = np.array(sample).astype(np.float32)
   
     counter = 1
     start_time = time.time()
     could_load, checkpoint_counter = self.load(self.checkpoint_dir)
+
     if could_load:
       counter = checkpoint_counter
       print(" [*] Load SUCCESS")
+
     else:
       print(" [!] Load failed...")
 
     for epoch in xrange(config.epoch):
+
       if config.dataset == 'mnist':
         batch_idxs = min(len(self.data_X), config.train_size) // config.batch_size
+
       else:      
         self.data = glob(os.path.join(
           config.data_dir, config.dataset, self.input_fname_pattern))
@@ -228,9 +253,11 @@ class DCGAN(object):
         batch_idxs = min(len(self.data), config.train_size) // config.batch_size
 
       for idx in xrange(0, int(batch_idxs)):
+
         if config.dataset == 'mnist':
           batch_images = self.data_X[idx*config.batch_size:(idx+1)*config.batch_size]
           batch_labels = self.data_y[idx*config.batch_size:(idx+1)*config.batch_size]
+
         else:
           batch_files = self.data[idx*config.batch_size:(idx+1)*config.batch_size]
           batch = [
@@ -241,8 +268,10 @@ class DCGAN(object):
                         resize_width=self.output_width,
                         crop=self.crop,
                         grayscale=self.grayscale) for batch_file in batch_files]
+
           if self.grayscale:
             batch_images = np.array(batch).astype(np.float32)[:, :, :, None]
+
           else:
             batch_images = np.array(batch).astype(np.float32)
 
@@ -309,6 +338,7 @@ class DCGAN(object):
             time.time() - start_time, errD_fake+errD_real, errG))
 
         if np.mod(counter, config.sample_freq) == 0:
+
           if config.dataset == 'mnist':
             samples, d_loss, g_loss = self.sess.run(
               [self.sampler, self.d_loss, self.g_loss],
@@ -321,7 +351,9 @@ class DCGAN(object):
             save_images(samples, image_manifold_size(samples.shape[0]),
                   './{}/train_{:08d}.png'.format(config.sample_dir, counter))
             print("[Sample] d_loss: %.8f, g_loss: %.8f" % (d_loss, g_loss)) 
+
           else:
+
             try:
               samples, d_loss, g_loss = self.sess.run(
                 [self.sampler, self.d_loss, self.g_loss],
@@ -333,6 +365,7 @@ class DCGAN(object):
               save_images(samples, image_manifold_size(samples.shape[0]),
                     './{}/train_{:08d}.png'.format(config.sample_dir, counter))
               print("[Sample] d_loss: %.8f, g_loss: %.8f" % (d_loss, g_loss)) 
+
             except:
               print("one pic error!...")
 
@@ -342,7 +375,9 @@ class DCGAN(object):
         counter += 1
         
   def discriminator(self, image, y=None, reuse=False):
+
     with tf.variable_scope("discriminator") as scope:
+
       if reuse:
         scope.reuse_variables()
 
@@ -354,6 +389,7 @@ class DCGAN(object):
         h4 = linear(tf.reshape(h3, [self.batch_size, -1]), 1, 'd_h4_lin')
 
         return tf.nn.sigmoid(h4), h4
+
       else:
         yb = tf.reshape(y, [self.batch_size, 1, 1, self.y_dim])
         x = conv_cond_concat(image, yb)
@@ -373,7 +409,9 @@ class DCGAN(object):
         return tf.nn.sigmoid(h3), h3
 
   def generator(self, z, y=None):
+
     with tf.variable_scope("generator") as scope:
+
       if not self.y_dim:
         s_h, s_w = self.output_height, self.output_width
         s_h2, s_w2 = conv_out_size_same(s_h, 2), conv_out_size_same(s_w, 2)
@@ -405,6 +443,7 @@ class DCGAN(object):
             h3, [self.batch_size, s_h, s_w, self.c_dim], name='g_h4', with_w=True)
 
         return tf.nn.tanh(h4)
+
       else:
         s_h, s_w = self.output_height, self.output_width
         s_h2, s_h4 = int(s_h/2), int(s_h/4)
@@ -432,6 +471,7 @@ class DCGAN(object):
             deconv2d(h2, [self.batch_size, s_h, s_w, self.c_dim], name='g_h3'))
 
   def sampler(self, z, y=None):
+
     with tf.variable_scope("generator") as scope:
       scope.reuse_variables()
 
@@ -460,6 +500,7 @@ class DCGAN(object):
         h4 = deconv2d(h3, [self.batch_size, s_h, s_w, self.c_dim], name='g_h4')
 
         return tf.nn.tanh(h4)
+
       else:
         s_h, s_w = self.output_height, self.output_width
         s_h2, s_h4 = int(s_h/2), int(s_h/4)
@@ -563,3 +604,8 @@ class DCGAN(object):
     else:
       print(" [*] Failed to find a checkpoint")
       return False, 0
+
+
+'''
+python main.py --image_size 96 --output_size 48 --dataset anime --is_crop True --is_train True --epoch 300 --input_fname_pattern "*.jpg"
+'''
