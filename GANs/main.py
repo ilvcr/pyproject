@@ -2,10 +2,10 @@
 # coding=utf-8
 
 #*************************************************************************#
-# File Name: gans_train.py
+# File Name: main.py
 # Author: yoghourt->ilvcr 
 # Mail: liyaoliu@foxmail.com  @@  ilvcr@outlook.com 
-# Created Time: Sat May  4 17:05:49 2019
+# Created Time: Sat May  4 17:13:20 2019
 # Description: 
 #************************************************************************#
 
