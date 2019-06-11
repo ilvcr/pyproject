@@ -1,0 +1,6 @@
+.zcache
+.vagrant
+*.DS_Store
+*.log
+*.sqlite3
+*.pyc

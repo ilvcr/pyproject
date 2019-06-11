@@ -1,0 +1,420 @@
+﻿{% extends "base/index.html" %}
+
+{% block css %}
+    <link rel="stylesheet" href="/static/ztree3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+    <script src="/static/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/static/ace/language_tools.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/static/ace/src/theme-clouds.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/static/ace/src/theme-dracula.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/static/ace/src/theme-github.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/static/ace/src/mode-mysql.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/static/ace/src/mode-python.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/static/ace/src/mode-sh.js" type="text/javascript" charset="utf-8"></script>
+<style  type=＂text/css＂>
+
+</style>
+{% endblock %}
+
+{% block center %}
+
+<!--用户信息-->
+<div class="panel panel-default center-top" style="min-width:1300px;">
+  <div class="panel-heading">
+      <div class="row" style="padding-top:5px;padding-left:10px;">
+          <div class="col-sm-6">
+              <a class="btn btn-sm btn-success" data-toggle="modal" data-target="#serverModal"> 添加脚本</a>
+          </div>
+      </div>
+  </div>
+  <div class="panel-body">
+        <div style="margin-bottom: 10px;">
+            <div class="col-sm-12">
+                <table class="table table-hover table-bordered" >
+                  <thead>
+                    <tr style="background-color: #f5f5f5;">
+                      <th>ID</th>
+                      <th>名称</th>
+                      <th>备注</th>
+                      <th>安装脚本</th>
+                      <th>操作</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% for i in data_list %}
+                    <tr name="tbody">
+                        <td>{{ i.id }}</td>
+                      <td>{{ i.server_name }}</td>
+                      <td>{{ i.server_version }}</td>
+                      {% if i.install_script %}
+                      <td ><a  href="javascript:;" style="text-decoration:none;" name="edit-server-script" server_id="{{ i.id }}" data-toggle="tooltip" data-placement="left" title="修改"> 已设置 </a></td>
+                      {% else %}
+                      <td ><a  href="javascript:;" style="color:red;text-decoration:none;" name="edit-server-script" server_id="{{ i.id }}" data-toggle="tooltip" data-placement="left" title="修改"> 未设置 </a></td>
+                      {% endif %}
+                      <td style="padding-left:5px;">
+                        <a  href="javascript:;" style="text-decoration:none;" name="edit-server" server_id="{{ i.id }}" data-toggle="tooltip" data-placement="left" title="修改"> <span class="fa fa-pencil"></span> </a>&nbsp;
+                        <a  href="javascript:;" style="text-decoration:none;" name="install-server" server_id="{{ i.id }}" data-toggle="tooltip" data-placement="top" title="执行"> <span class="fa fa-cog"></span>  </a>&nbsp;
+                        <a href="javascript:;" style="text-decoration:none;" name="del-server" server_id="{{ i.id }}" data-toggle="tooltip" data-placement="right" title="删除"><span class="fa fa-trash"></span> </a>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+                <div class="text-right" style="margin-top:-30px;padding-right:9%">
+                  <ul class="pagination" id="pagination"></ul>
+                </div>
+            </div>
+
+        </div>
+  </div>
+</div>
+
+{% endblock %}
+
+<!-- Modal -->
+{% block modal %}
+
+<div class="modal fade" id="serverModal" tabindex="-1" role="dialog" aria-labelledby="serverModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" style="margin-top:135px;width: 700px">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="serverModalLabel">添加脚本</h4>
+      </div>
+      <div class="modal-body">
+         <form>
+          <div class="form-group">
+            <label >名称</label>
+            <input  class="form-control"  placeholder="依赖服务" id="server-name">
+          </div>
+          <div class="form-group">
+            <label >备注</label>
+            <input  class="form-control"  placeholder="服务版本" id="server-version">
+          </div>
+            <div class="form-group">
+                <lable> <span style="color: red"> * </span> 脚本</lable>
+                <!--代码输入框（注意请务必设置高度，否则无法显示）-->
+                <pre id="code" class="ace_editor" style="min-height:350px"><textarea class="ace_text-input" id="install-script"></textarea></pre>
+            </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary" id="sub-server">提交</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="edit-serverModal" tabindex="-1" role="dialog" aria-labelledby="edit-serverModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" style="margin-top:135px;width: 700px">
+      <div class="modal-header" >
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="edit-serverModalLabel">修改脚本</h4>
+      </div>
+      <div class="modal-body">
+          <div class="form-group" id="div-server-name">
+            <label >名称</label>
+            <input  class="form-control"  placeholder="依赖服务" id="edit-server-name">
+          </div>
+          <div class="form-group" id="div-server-version">
+            <label >备注</label>
+            <input  class="form-control"  placeholder="服务版本" id="edit-server-version">
+          </div>
+          <div class="form-group">
+            <label >脚本</label>
+              <pre id="edit-code" class="ace_editor" style="min-height:350px"><textarea class="ace_text-input" id="edit-install-script" ></textarea></pre>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary" id="sub-edit-server">提交</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="installModal" tabindex="-1" role="dialog" aria-labelledby="installModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" style="margin-top:135px;">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="installModalLabel">选择服务器</h4>
+      </div>
+      <div class="modal-body" style="max-height:500px;overflow:scroll;">
+          <ul id="treeDemo" class="ztree"></ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary" id="sub-install">执行</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock  %}
+
+{% block js %}
+    <script type="text/javascript" src="/static/ztree3/js/jquery.ztree.core.js"></script>
+    <script type="text/javascript" src="/static/ztree3/js/jquery.ztree.excheck.js"></script>
+    <script type="text/javascript" src="/static/ztree3/js/jquery.ztree.exedit.js"></script>
+    <!-- 引入CodeMirror核心文件 -->
+
+    <script type="text/javascript" src="/static/mystyle/js/sys.js"></script>
+    <script type="text/javascript">
+    //初始化对象
+    editor = ace.edit("code");
+    //设置风格和语言（更多风格和语言，请到github上相应目录查看）
+    theme = "github";
+    language = "sh";
+    editor.setTheme("ace/theme/" + theme);
+    editor.session.setMode("ace/mode/" + language);
+    editor.getSession().setTabSize(4);
+    editor.getSession().setUseWrapMode(true);
+
+    //字体大小
+    editor.setFontSize(14);
+
+    //设置只读（true时只读，用于展示代码）
+    editor.setReadOnly(false);
+
+    //自动换行,设置为off关闭
+    editor.setOption("wrap", "off");
+
+    //启用提示菜单
+    ace.require("ace/ext/language_tools");
+    editor.setOptions({
+        enableBasicAutocompletion: true,
+        enableSnippets: true,
+        enableLiveAutocompletion: true
+    });
+
+    //添加
+    $("#sub-server").click(function(){
+        var server_name = $("#server-name").val();
+        var server_version = $("#server-version").val();
+        var install_script = editor.getValue();
+        console.log(install_script);
+        $.ajax(
+            {
+            url:"/sys/install/",
+            type: 'POST',
+            data:{'server_name':server_name,'server_version':server_version,'install_script':install_script},
+            success:function(data) {
+                var ret = eval('(' + data + ')');
+                if(ret.status =="perms_false"){
+                    spop({
+                        template: ret.info,
+                        style: 'warning',
+                        autoclose: 3000
+                    });
+                }else {
+                    $("#serverModal").modal("hide");
+                    spop({
+                        template: ret.info,
+                        style: 'success',
+                        autoclose: 3000
+                    });
+                    setTimeout("location.reload()",3000);
+                }
+            }
+        })
+
+    });
+
+    //初始化对象
+    editor1 = ace.edit("edit-code");
+    //设置风格和语言（更多风格和语言，请到github上相应目录查看）
+    theme = "github";
+    language = "sh";
+    editor1.setTheme("ace/theme/" + theme);
+    editor1.session.setMode("ace/mode/" + language);
+    editor1.getSession().setTabSize(4);
+    editor1.getSession().setUseWrapMode(true);
+
+    //字体大小
+    editor1.setFontSize(14);
+
+    //设置只读（true时只读，用于展示代码）
+    editor1.setReadOnly(false);
+
+    //自动换行,设置为off关闭
+    editor1.setOption("wrap", "off");
+
+    //启用提示菜单
+    ace.require("ace/ext/language_tools");
+    editor1.setOptions({
+        enableBasicAutocompletion: true,
+        enableSnippets: true,
+        enableLiveAutocompletion: true
+    });
+
+    //获取修改环境信息
+    $('td a[name="edit-server"]').click(function(){
+        var server_id = $(this).attr("server_id");
+        $.ajax({
+            url: "/sys/install/",
+            type: "PUT",
+            data: JSON.stringify({'server_id':server_id}),
+            success: function(data) {
+                var ret = eval('(' + data + ')');
+                if(ret.status =="perms_false"){
+                    spop({
+                        template: ret.info,
+                        style: 'warning',
+                        autoclose: 3000
+                    });
+                }else {
+                    if (ret.status =="True"){
+                        info = ret.info;
+                        $("#edit-server-name").val(info.server_name);
+                        $("#edit-server-version").val(info.server_version);
+                        editor1.setValue(info.install_script);
+                        $("#sub-edit-server").attr('server_id', info.server_id);
+                        $("#div-server-name").css('display', 'block');
+                        $("#div-server-version").css('display', 'block');
+                        $("#edit-serverModal").modal('show');
+                    }else {
+                        spop({
+                            template: ret.info,
+                            autoclose: 3000
+                        });
+                    }
+                }
+             }
+        });
+    });
+
+
+    //获取修改环境信息
+    $('td a[name="edit-server-script"]').click(function(){
+        var server_id = $(this).attr("server_id");
+        $.ajax({
+            url: "/sys/install/",
+            type: "PUT",
+            data: JSON.stringify({'server_id':server_id}),
+            success: function(data) {
+                var ret = eval('(' + data + ')');
+                if(ret.status =="perms_false"){
+                    spop({
+                        template: ret.info,
+                        style: 'warning',
+                        autoclose: 3000
+                    });
+                }else {
+                    if (ret.status =="True"){
+                        info = ret.info;
+                        $("#edit-server-name").val(info.server_name);
+                        $("#edit-server-version").val(info.server_version);
+                        editor1.setValue(info.install_script);
+                        $("#sub-edit-server").attr('server_id', info.server_id);
+                        $("#div-server-name").css('display', 'none');
+                        $("#div-server-version").css('display', 'none');
+                        $("#edit-serverModal").modal('show');
+                    }else {
+                        spop({
+                            template: ret.info,
+                            autoclose: 3000
+                        });
+                    }
+                }
+             }
+        });
+    });
+
+    //修改环境信息
+    $("#sub-edit-server").click(function(){
+        var server_id = $(this).attr('server_id');
+        var server_name = $("#edit-server-name").val();
+        var server_version = $("#edit-server-version").val();
+        var install_script = editor1.getValue();
+        $.ajax({
+            url: "/sys/install/",
+            type: "PUT",
+            data: JSON.stringify({'action':'edit','server_name':server_name,'server_version':server_version,
+                'install_script':install_script,"server_id":server_id}),
+            success: function(data) {
+                var ret = eval('(' + data + ')');
+                if(ret.status =="perms_false"){
+                    spop({
+                            template: ret.info,
+                            style: 'warning',
+                            autoclose: 3000
+                        });
+                }else {
+                     $("#edit-serverModal").modal("hide");
+                    spop({
+                        template: ret.info,
+                        style: 'success',
+                        autoclose: 3000
+                    });
+                    setTimeout("location.reload()",3000);
+                }
+             }
+        });
+    });
+
+
+
+    $(document).ready(function(){
+        $("a[name='install-server']").click(function(){
+            var server_id = $(this).attr("server_id");
+            var setting = {
+                view: {
+                    selectedMulti: false
+                },
+                check: {
+                    enable: true
+                },
+                data: {
+                    simpleData: {
+                        enable: true
+                    }
+                },
+                edit: {
+                    enable: false
+                }
+            };
+            var zNodes = {{ znodes_data |safe }};
+            $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+            $("#sub-install").attr('server_id',server_id);
+            $("#installModal").modal('show');
+        })
+    });
+
+
+     //环境部署
+    $("#sub-install").click(function(){
+        var server_id = $(this).attr("server_id");
+        var treeObj=$.fn.zTree.getZTreeObj("treeDemo");
+        var nodes = treeObj.getCheckedNodes(true);
+        var node_ids =new Array();
+        for(var i=0;i<nodes.length;i++){
+           node_ids[i] = nodes[i].name;
+        }
+        node_id_json = JSON.stringify(node_ids);
+        $.post("/sys/exec/",{'node_id_json':node_id_json,'server_id':server_id},function(data){
+                var ret = eval('(' + data + ')');
+                if(ret.status =="perms_false"){
+                    spop({
+                        template: ret.info,
+                        style: 'warning',
+                        autoclose: 3000
+                    });
+                }else {
+                    $("#installModal").modal("hide");
+                    spop({
+                        template: ret.info,
+                        style: 'success',
+                        autoclose: 3000
+                    });
+                    setTimeout("location.reload()",3000);
+                }
+        });
+    });
+    </script>
+{% endblock %}
+
+

@@ -1,0 +1,267 @@
+﻿{% extends "base/index.html" %}
+
+
+{% block center %}
+<!--用户信息-->
+<div class="panel panel-default center-top" style="min-width:1300px;">
+  <div class="panel-heading">
+      <div class="row" style="padding-top:5px;padding-left:10px;">
+          <div class="col-sm-6">
+              <a href="javascript:;" class="btn btn-sm btn-success" data-toggle="modal" data-target="#permsModal"> 添加权限 </a>
+          </div>
+      </div>
+  </div>
+  <div class="panel-body">
+
+        <div style="margin-bottom: 10px;">
+            <div class="col-sm-12">
+                <table class="table table-hover table-bordered">
+                  <thead>
+                    <tr style="background-color: #f5f5f5;">
+                        <th>权限名称</th>
+                        <th>权限ID</th>
+                        <th>权限地址</th>
+                        <th>Method</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                  </thead>
+                  <tbody id="perms_table">
+                    {% for i in perms_list %}
+                        <tr>
+                          <td><i class="fa {{ i.perms_img }}" aria-hidden="true"></i>&emsp;{{ i.perms }}</td>
+                          <td>{{ i.perms_id }}</td>
+                          <td>{{ i.perms_url }}</td>
+                            <td>{{ i.perms_method }}</td>
+                          <td>{{ i.status }}</td>
+                          <td style="padding-left:5px;">
+                                <a href="javascript:;" style="text-decoration:none;" name="edit-perms" perms_id="{{ i.id }}" data-toggle="tooltip" data-placement="left" title="修改"><span class="fa fa-pencil"></span> </a>&nbsp;&nbsp;&nbsp;
+                                <a href="javascript:;" style="text-decoration:none;" name="del-perms" perms_id="{{ i.id }}" data-toggle="tooltip" data-placement="right" title="删除"><span class="fa fa-trash"></span> </a>
+                              </td>
+                      </tr>
+                        {% for j in i.child %}
+                            <tr>
+                              <td style="padding-left: 25px;"><i class="fa {{ j.perms_img }}" aria-hidden="true"></i>&emsp;{{ j.perms }}</td>
+                              <td>{{ j.perms_id }}</td>
+                              <td>{{ j.perms_url }}</td>
+                              <td>{{ j.perms_method }}</td>
+                              <td>{{ j.status }}</td>
+                              <td style="padding-left:5px;">
+                                <a href="javascript:;" style="text-decoration:none;" name="edit-perms" perms_id="{{ j.id }}" data-toggle="tooltip" data-placement="left" title="修改"><span class="fa fa-pencil"></span> </a>&nbsp;&nbsp;&nbsp;
+                                <a href="javascript:;" style="text-decoration:none;" name="del-perms" perms_id="{{ j.id }}" data-toggle="tooltip" data-placement="right" title="删除"><span class="fa fa-trash"></span> </a>
+                              </td>
+                          </tr>
+                            {% for k in j.child %}
+                                <tr>
+                                  <td style="padding-left: 40px;"><i class="fa {{ k.perms_img }}" aria-hidden="true"></i>&emsp;{{ k.perms }}</td>
+                                  <td>{{ k.perms_id }}</td>
+                                  <td>{{ k.perms_url }}</td>
+                                    <td>{{ k.perms_method }}</td>
+                                  <td>{{ k.status }}</td>
+                                  <td style="padding-left:5px;">
+                                        <a href="javascript:;" style="text-decoration:none;" name="edit-perms" perms_id="{{ k.id }}" data-toggle="tooltip" data-placement="left" title="修改"><span class="fa fa-pencil"></span> </a>&nbsp;&nbsp;&nbsp;
+                                        <a href="javascript:;" style="text-decoration:none;" name="del-perms" perms_id="{{ k.id }}" data-toggle="tooltip" data-placement="right" title="删除"><span class="fa fa-trash"></span> </a>
+                                      </td>
+                              </tr>
+                            {% endfor %}
+                        {% endfor %}
+
+                    {% endfor %}
+                  </tbody>
+                </table>
+                <div class="text-right" style="margin-top:-30px;padding-right:9%">
+                  <ul class="pagination" id="pagination"></ul>
+                </div>
+            </div>
+        </div>
+  </div>
+</div>
+
+
+{% endblock %}
+
+
+<!-- Modal -->
+{% block modal %}
+
+<div class="modal fade" id="permsModal" tabindex="-1" perms="dialog" aria-labelledby="permsModalLabel">
+  <div class="modal-dialog" perms="document">
+    <div class="modal-content" style="margin-top:135px;">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="permsModalLabel">添加权限</h4>
+      </div>
+      <div class="modal-body">
+          <div class="form-group">
+            <label >权限</label>
+            <input  class="form-control"  placeholder="权限" id="perms">
+          </div>
+          <div class="form-group">
+                <label>类型</label>
+                <select class="form-control" id="perms-type">
+                    <option value="一级菜单">一级菜单</option>
+                    <option value="二级菜单">二级菜单</option>
+                    <option value="功能权限">功能权限</option>
+                </select>
+          </div>
+          <div class="form-group">
+            <label>上级</label>
+            <select class="form-control" id="perms-parent">
+                <option value="0">无上级</option>
+                {% for i in menu_list %}
+                <option value="{{ i.id }}">{{ i.perms }}</option>
+                {% endfor %}
+            </select>
+          </div>
+
+          <div class="form-group" id="div-perms">
+            <label >地址</label>
+            <input class="form-control"  placeholder="地址" id="perms-url">
+          </div>
+            <div class="form-group">
+                <label>method</label>
+                <select class="form-control" id="perms-method">
+                    <option value="GET">GET</option>
+                    <option value="POST">POST</option>
+                     <option value="PUT">PUT</option>
+                    <option value="DELETE">DELETE</option>
+                </select>
+            </div>
+        <div class="form-group">
+            <label >图标</label>
+            <input  class="form-control"  placeholder="图标" id="perms-img">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary" id="sub-perms">提交</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="edit-permsModal" tabindex="-1" perms="dialog" aria-labelledby="edit-permsModalLabel">
+  <div class="modal-dialog" perms="document">
+    <div class="modal-content" style="margin-top:135px;">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="edit-permsModalLabel">修改权限</h4>
+      </div>
+      <div class="modal-body">
+          <div class="form-group">
+            <label >权限</label>
+            <input  class="form-control"  placeholder="权限" id="edit-perms">
+          </div>
+          <div class="form-group">
+                <label>类型</label>
+                <select class="form-control" id="edit-perms-type">
+                    <option value="一级菜单">一级菜单</option>
+                    <option value="二级菜单">二级菜单</option>
+                    <option value="功能权限">功能权限</option>
+                </select>
+          </div>
+          <div class="form-group">
+            <label>上级</label>
+            <select class="form-control" id="edit-perms-parent">
+            <option value="0">无上级</option>
+                {% for i in menu_list %}
+                <option value="{{ i.id }}">{{ i.perms }}</option>
+                {% endfor %}
+            </select>
+          </div>
+          <div class="form-group" id="edit-div-perms">
+            <label >地址</label>
+            <input class="form-control"  placeholder="地址" id="edit-perms-url">
+          </div>
+
+            <div class="form-group">
+                <label>method</label>
+                <select class="form-control" id="edit-perms-method">
+                    <option value="GET">GET</option>
+                    <option value="POST">POST</option>
+                     <option value="PUT">PUT</option>
+                    <option value="DELETE">DELETE</option>
+                </select>
+            </div>
+        <div class="form-group">
+            <label >图标</label>
+            <input  class="form-control"  placeholder="图标" id="edit-perms-img">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary" id="sub-edit-perms">提交</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock  %}
+
+{% block js %}
+    <script type="text/javascript" src="/static/mystyle/js/rbac.js"></script>
+    <script>
+    //前端分页
+    var limit = 15; //每页显示数据条数
+    var total = $('#perms_table').find('tr').length;
+    var allPage = total%limit>0?parseInt(total/limit)+1:parseInt(total/limit);
+    function doPage(n){
+        if(allPage>1){
+            var prevPage='',nextPage='',pageHtml='';
+            if (n===1) {
+                prevPage = '<li class="disabled"><a href="javascript:;">上一页</a></li>';
+                nextPage = '<li data-page="'+ (n+1) +'"><a href="javascript:;">下一页</a></li>';
+            } else if(n===allPage){
+                prevPage = '<li data-page="'+ (n-1) +'"><a href="javascript:;">上一页</a></li>';
+                nextPage = '<li class="disabled"><a href="javascript:;">下一页</a></li>';
+            } else {
+                prevPage = '<li data-page="'+ (n-1) +'"><a href="javascript:;">上一页</a></li>';
+                nextPage = '<li data-page="'+ (n+1) +'"><a href="javascript:;">下一页</a></li>';
+            }
+            if (n<=5){
+                for(var i=1;i<=5;i++){
+                    if (n===i) {
+                        pageHtml += '<li class="active"><a href="javascript:;">'+ i +'</a></li>';
+                    }else{
+                        if(i<=allPage) {
+                            pageHtml += '<li data-page="' + i + '"><a href="javascript:;">' + i + '</a></li>';
+                        }
+                    }
+                }
+            }else{
+                for(var i=1;i<=5;i++){
+                    cur_page = parseInt(parseInt((n-1)/5)*5);
+                    if (n===(cur_page+i)){
+                        pageHtml += '<li class="active"><a href="javascript:;">'+ (cur_page+i) +'</a></li>';
+                    }else{
+                        if((i+cur_page)<=allPage){
+                            pageHtml += '<li data-page="'+ (i+cur_page) +'"><a href="javascript:;">'+ (i+cur_page) +'</a></li>';
+                        }
+                    }
+                }
+            }
+            $('#pagination').html(prevPage+pageHtml+nextPage);
+        }
+
+        $('#perms_table').find('tr').hide();
+        if(n===1){
+            $('#perms_table').find('tr:lt('+ limit +')').show();
+        }else{
+            $('#perms_table').find('tr:gt('+ ((n-1)*limit-1) +'):lt('+ limit +')').show();
+        }
+
+    }
+    doPage(1);
+    $('#pagination').on('click', 'li a', function(event) {
+        event.preventDefault();
+        var curr = parseInt($(this).parent().data('page'));
+        if (!isNaN(curr)) {
+            doPage(curr);
+        }
+    });
+    </script>
+{% endblock %}
+
+

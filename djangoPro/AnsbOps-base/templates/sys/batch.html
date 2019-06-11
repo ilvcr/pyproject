@@ -1,0 +1,347 @@
+﻿{% extends "base/index.html" %}
+
+
+
+{% block css %}
+<link rel="stylesheet" href="/static/ztree3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+{% endblock %}
+
+{% block center %}
+
+
+<!--用户信息-->
+<div class="row">
+<div class="col-sm-2">
+    <div class="panel panel-default">
+        <div class="panel-body" style="min-height: 753px">
+            <ul id="treeDemo" class="ztree"></ul>
+        </div>
+    </div>
+</div>
+
+<div class="col-lg-10">
+
+    <div class="panel panel-default center-top" style="min-width:1300px;">
+
+  <div class="panel-body">
+    <div class="col-sm-12" id="dir-list">
+        <ul class="nav nav-tabs" id="nav-change">
+          <li role="presentation" class="active"><a href="javascript:;">执行命令</a></li>
+          <li role="presentation" ><a href="javascript:;">上传文件</a></li>
+          <li role="presentation"><a href="javascript:;">执行脚本</a></li>
+        </ul>
+        <!--批量执行命令-->
+        <div class="row" style="margin-left:0px;margin-top:20px;" id="div-cmd">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="input-group">
+                      <span class="input-group-addon" style="color:green">命令</span>
+                      <input type="text" class="form-control" id="cmd" placeholder="shell"/>
+                      <a href="javascript:;" id="sub-cmd" class="input-group-addon btn" style="color:green" id="sub-cmd">执行</a>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="margin-top: 10px;">
+                <div class="col-sm-9">
+                    <label>执行结果</label>
+                    <pre name="" style="min-height: 580px;color: #00B83F;background-color: #313030;" class="form-control" id="txt-cmd" readonly></pre>
+                </div>
+            </div>
+
+        </div>
+
+        <!--批量管理文件-->
+        <div class="row" style="margin-left:0px;margin-top:20px;display: none"  id="div-file">
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="input-group">
+                      <span class="input-group-addon"  style="color:green">文件</span>
+                      <input type="file" class="form-control" style="color: #20B320;" id="up-file">
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="input-group">
+                      <input type="text" class="form-control"  id="up-file-path" value="/tmp">
+                      <span class="input-group-addon btn"  style="color:green" id="sub-file">上传</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="margin-top: 10px;">
+                <div class="col-sm-9">
+                    <label>执行结果</label>
+                    <textarea name="" style="min-height: 580px;background-color: #313030;color: #00B83F" class="form-control" id="txt-file" readonly></textarea>
+
+                </div>
+            </div>
+
+        </div>
+
+        <!--批量执行脚本-->
+        <div class="row" style="margin-left:0px;margin-top:20px;display: none" id="div-script">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="input-group">
+                      <span class="input-group-addon"  style="color:green">脚本</span>
+                      <input type="file" class="form-control" style="color: #20B320;" id="up-script" >
+                        <span class="input-group-addon btn"  style="color:green" id="sub-script">执行</span>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="margin-top: 10px;">
+                <div class="col-sm-9">
+                    <label>执行结果</label>
+                    <textarea name="" style="min-height: 580px;background-color: #313030;color: #00B83F" class="form-control" id="txt-script" readonly></textarea>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+  </div>
+</div>
+</div>
+</div>
+
+{% endblock %}
+<!-- Modal -->
+{% block modal %}
+{% endblock  %}
+
+{% block js %}
+<script type="text/javascript" src="/static/ztree3/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="/static/ztree3/js/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="/static/ztree3/js/jquery.ztree.exedit.js"></script>
+<script type="text/javascript" >
+
+$("#nav-change").children().click(function () {
+    $(this).addClass('active');
+    $(this).siblings().removeClass('active');
+    var title = $(this).children().html();
+    if(title=='执行命令'){
+        $("#div-cmd").show();
+        $("#div-file").hide();
+        $("#div-script").hide();
+        $("#div-crontab").hide();
+    }else if(title=='上传文件'){
+        $("#div-cmd").hide();
+        $("#div-file").show();
+        $("#div-script").hide();
+        $("#div-crontab").hide();
+    }
+    else{
+        $("#div-cmd").hide();
+        $("#div-file").hide();
+        $("#div-script").show();
+        $("#div-crontab").hide();
+    }
+
+});
+
+
+var setting = {
+    view: {
+        selectedMulti: false,
+    },
+    check: {
+        enable: true
+    },
+    data: {
+        simpleData: {
+            enable: true
+        }
+    },
+    edit: {
+        enable: false
+    }
+};
+
+var zNodes = {{ znodes_data |safe }};
+$(document).ready(function(){
+    treeObj=$.fn.zTree.init($("#treeDemo"), setting, zNodes);
+});
+
+
+//ip地址正则匹配
+function isValidIP(ip)
+{
+    var reg =  /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/;
+    return reg.test(ip);
+}
+
+//批量执行命令
+$("#sub-cmd").click(function () {
+    var treeObj=$.fn.zTree.getZTreeObj("treeDemo");
+    var nodes=treeObj.getCheckedNodes(true);
+    var node_id_list =new Array();
+    for(var i=0;i<nodes.length;i++){
+        var ip=nodes[i].name;
+        if(isValidIP(ip))  {
+            node_id_list.push(ip);
+        }
+    }
+    var node_id_json = JSON.stringify(node_id_list);
+    var cmd=$("#cmd").val();
+    if (node_id_list.length>0){
+        if(cmd){
+            $("#txt-cmd").text("命令执行中，请耐心等待！");
+            $.post("/sys/runcmd/",{"ip_list":node_id_json,"cmd":cmd},function (data) {
+                var ret = eval('(' + data + ')');
+                if(ret.status =="perms_false"){
+                    spop({
+                        template: ret.info,
+                        style: 'warning',
+                        autoclose: 3000
+                    });
+                }else {
+                    $("#txt-cmd").text(ret.info);
+                }
+            });
+            msg="";
+        }else{
+            var msg="请输入命令！"
+        }
+    }else {
+        var msg='请选择服务器！'
+    }
+    if(msg) {
+        spop({
+            template: msg,
+            style: 'warning',
+            autoclose: 3000
+        });
+    }
+});
+
+//批量上传文件
+$("#sub-file").click(function () {
+    var treeObj=$.fn.zTree.getZTreeObj("treeDemo");
+    var nodes=treeObj.getCheckedNodes(true);
+    var node_id_list =new Array();
+    for(var i=0;i<nodes.length;i++){
+        var ip=nodes[i].name;
+        if(isValidIP(ip))  {
+            node_id_list.push(ip);
+        }
+    }
+    var node_id_json = JSON.stringify(node_id_list);
+    var upload_path = $("#up-file-path").val();
+    var formData = new FormData();
+    formData.append("upload_path", upload_path);
+    formData.append("ip_list", node_id_json);
+    upfile = $("#up-file").get(0).files[0];
+
+    var size = upfile.size;
+    var filesize = (size / 1024).toFixed(2);
+    var maxSize = 5120;//文件上传大小限制
+    if (filesize>maxSize){
+        msg = "上传文件不许大于" + maxSize + "KB"
+    }else{
+        if (node_id_list.length>0){
+            if(upfile){
+                formData.append("upfile",upfile);
+                $("#txt-file").text("文件上传中，请耐心等待！");
+                $.ajax({
+                     url: "/sys/upfile/",
+                     type: "POST",
+                     processData: false,
+                     contentType: false,
+                     data: formData,
+                     success: function(data) {
+                         var ret = eval('(' + data + ')');
+                        if(ret.status =="perms_false"){
+                            spop({
+                                    template: ret.info,
+                                    style: 'warning',
+                                    autoclose: 3000
+                                });
+                            }
+                        else{
+                            $("#txt-file").text(ret.info);
+                     }}
+                });
+                msg="";
+            }else{
+                msg="请选择文件！"
+            }
+        }else{
+            msg="请选择服务器！"
+        }
+    }
+    if(msg) {
+        spop({
+            template: msg,
+            style: 'warning',
+            autoclose: 3000
+        });
+    }
+});
+
+//批量执行脚本
+$("#sub-script").click(function () {
+    var treeObj=$.fn.zTree.getZTreeObj("treeDemo");
+    var nodes=treeObj.getCheckedNodes(true);
+    var node_id_list =new Array();
+    for(var i=0;i<nodes.length;i++){
+        var ip=nodes[i].name;
+        if(isValidIP(ip))  {
+            node_id_list.push(ip);
+        }
+    }
+    var node_id_json = JSON.stringify(node_id_list);
+    var formData = new FormData();
+    formData.append("ip_list", node_id_json);
+    script_file = $("#up-script").get(0).files[0];
+    var size = script_file.size;
+    var filesize = (size / 1024).toFixed(2);
+    var maxSize = 1024;//文件上传大小限制
+    if (filesize>maxSize){
+        msg = "上传脚本文件不许大于" + maxSize + "KB"
+    }else {
+        if (node_id_list.length > 0) {
+            if (script_file) {
+                formData.append("script_file", script_file);
+                $("#txt-script").text("脚本执行中，请耐心等待！");
+                $.ajax({
+                    url: "/sys/script/",
+                    type: "POST",
+                    processData: false,
+                    contentType: false,
+                    data: formData,
+                    success: function (data) {
+                        var ret = eval('(' + data + ')');
+                        if(ret.status =="perms_false"){
+                            spop({
+                                    template: ret.info,
+                                    style: 'warning',
+                                    autoclose: 3000
+                                });
+                            }
+                        else{
+                            $("#txt-script").text(ret.info);
+                            }
+
+                    }
+                });
+                msg = "";
+            } else {
+                msg = "请上传脚本！"
+            }
+        } else {
+            msg = "请选择服务器！"
+        }
+    }
+    if(msg) {
+        spop({
+            template: msg,
+            style: 'warning',
+            autoclose: 3000
+        });
+    }
+});
+
+</script>
+
+{% endblock %}
+
+

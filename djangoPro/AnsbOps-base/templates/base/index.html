@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>AnsbOps</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <!-- Bootstrap 3.3.7 -->
+  <link rel="stylesheet" href="/static/bootstrap/dist/css/bootstrap.min.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="/static/font-awesome/css/font-awesome.min.css">
+  <!-- jvectormap -->
+  <link rel="stylesheet" href="/static/jvectormap/jquery-jvectormap.css">
+  <!-- 主题风格，首页排版 -->
+  <link rel="stylesheet" href="/static/dist/css/AdminLTE.min.css">
+  <!-- AdminLTE皮肤。从css/skins中选择一个皮肤 -->
+  <link rel="stylesheet" href="/static/dist/css/skins/_all-skins.min.css">
+
+  <link rel="stylesheet" href="/static/mystyle/css/index.css">
+  <!-- Google Font -->
+  <link rel="stylesheet" href="/static/mystyle/css/googleapis-font.css">
+
+  <link rel="stylesheet" type="text/css" href="/static/spop/dist/spop.min.css">
+{% block css %}
+<style>
+    .skillbar {
+        position: relative;
+        display: block;
+        width: 100%;
+        padding-top: 5px;
+        padding-left: 10px;
+        cursor: pointer;
+        height: 32px;
+        background-color: #ecf0f5;
+    }
+</style>
+
+
+{% endblock %}
+
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+  <header class="main-header">
+    <!-- 头部logo -->
+    <a href="index.html" class="logo">
+      <!-- mini logo for sidebar mini 50x50 pixels -->
+      <span class="logo-mini"><b>A</b>OS</span>
+      <!-- logo for regular state and mobile devices -->
+      <span class="logo-lg"><b>Ansb</b>Ops</span>
+    </a>
+    <!-- Header Navbar: style can be found in header.less -->
+    <nav class="navbar navbar-/static-top">
+      <!-- Sidebar toggle button-->
+      <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+        <span class="sr-only">Toggle navigation</span>
+      </a>
+      <!-- Navbar Right Menu -->
+      <div class="navbar-custom-menu">
+        <ul class="nav navbar-nav">
+          <!-- Messages: style can be found in dropdown.less-->
+          <li class="dropdown messages-menu">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <i class="fa fa-envelope-o"></i>
+              <span class="label label-success">4</span>
+            </a>
+            <ul class="dropdown-menu">
+              <li class="header">你有4条信息</li>
+              <li>
+                <!-- inner menu: contains the actual data -->
+                <ul class="menu">
+                  <li><!-- start message -->
+                    <a href="#">
+                      <div class="pull-left">
+                        <img src="/static/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                      </div>
+                      <h4>
+                        小贰
+                        <small><i class="fa fa-clock-o"></i> 5 mins</small>
+                      </h4>
+                      <p>中午去哪吃饭</p>
+                    </a>
+                  </li>
+                  <!-- end message -->
+                  <li>
+                    <a href="#">
+                      <div class="pull-left">
+                        <img src="/static/dist/img/user3-128x128.jpg" class="img-circle" alt="User Image">
+                      </div>
+                      <h4>
+                        小贰
+                        <small><i class="fa fa-clock-o"></i> 2 hours</small>
+                      </h4>
+                      <p>晚上去那吃饭</p>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#">
+                      <div class="pull-left">
+                        <img src="/static/dist/img/user4-128x128.jpg" class="img-circle" alt="User Image">
+                      </div>
+                      <h4>
+                        小贰
+                        <small><i class="fa fa-clock-o"></i> Today</small>
+                      </h4>
+                      <p>周末一起看电影吗</p>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#">
+                      <div class="pull-left">
+                        <img src="/static/dist/img/user3-128x128.jpg" class="img-circle" alt="User Image">
+                      </div>
+                      <h4>
+                        小贰
+                        <small><i class="fa fa-clock-o"></i> Yesterday</small>
+                      </h4>
+                      <p>。。。。。。。。。。。</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="footer"><a href="#">查看所有</a></li>
+            </ul>
+          </li>
+          <!-- Notifications: style can be found in dropdown.less -->
+          <li class="dropdown notifications-menu">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <i class="fa fa-bell-o"></i>
+              <span class="label label-warning">10</span>
+            </a>
+            <ul class="dropdown-menu">
+              <li class="header">你有10条通知</li>
+              <li>
+                <!-- inner menu: contains the actual data -->
+                <ul class="menu">
+                  <li>
+                    <a href="#">
+                      <i class="fa fa-users text-aqua"></i> 5 new members joined today
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#">
+                      <i class="fa fa-warning text-yellow"></i> Very long description here that may not fit into the
+                      page and may cause design problems
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#">
+                      <i class="fa fa-users text-red"></i> 5 new members joined
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#">
+                      <i class="fa fa-shopping-cart text-green"></i> 25 sales made
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#">
+                      <i class="fa fa-user text-red"></i> You changed your username
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="footer"><a href="#">查看所有</a></li>
+            </ul>
+          </li>
+          <!-- Tasks: style can be found in dropdown.less -->
+          <li class="dropdown tasks-menu">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <i class="fa fa-flag-o"></i>
+              <span class="label label-danger">9</span>
+            </a>
+            <ul class="dropdown-menu">
+              <li class="header">你有9个任务</li>
+              <li>
+                <!-- inner menu: contains the actual data -->
+                <ul class="menu">
+                  <li><!-- Task item -->
+                    <a href="#">
+                      <h3>
+                        Design some buttons
+                        <small class="pull-right">20%</small>
+                      </h3>
+                      <div class="progress xs">
+                        <div class="progress-bar progress-bar-aqua" style="width: 20%" role="progressbar"
+                             aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+                          <span class="sr-only">20% Complete</span>
+                        </div>
+                      </div>
+                    </a>
+                  </li>
+                  <!-- end task item -->
+                  <li><!-- Task item -->
+                    <a href="#">
+                      <h3>
+                        Create a nice theme
+                        <small class="pull-right">40%</small>
+                      </h3>
+                      <div class="progress xs">
+                        <div class="progress-bar progress-bar-green" style="width: 40%" role="progressbar"
+                             aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+                          <span class="sr-only">40% Complete</span>
+                        </div>
+                      </div>
+                    </a>
+                  </li>
+                  <!-- end task item -->
+                  <li><!-- Task item -->
+                    <a href="#">
+                      <h3>
+                        Some task I need to do
+                        <small class="pull-right">60%</small>
+                      </h3>
+                      <div class="progress xs">
+                        <div class="progress-bar progress-bar-red" style="width: 60%" role="progressbar"
+                             aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+                          <span class="sr-only">60% Complete</span>
+                        </div>
+                      </div>
+                    </a>
+                  </li>
+                  <!-- end task item -->
+                  <li><!-- Task item -->
+                    <a href="#">
+                      <h3>
+                        Make beautiful transitions
+                        <small class="pull-right">80%</small>
+                      </h3>
+                      <div class="progress xs">
+                        <div class="progress-bar progress-bar-yellow" style="width: 80%" role="progressbar"
+                             aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+                          <span class="sr-only">80% Complete</span>
+                        </div>
+                      </div>
+                    </a>
+                  </li>
+                  <!-- end task item -->
+                </ul>
+              </li>
+              <li class="footer">
+                <a href="#">查看所有</a>
+              </li>
+            </ul>
+          </li>
+          <!-- User Account: style can be found in dropdown.less -->
+          <li class="dropdown user user-menu">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <img src="/static/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+              <span class="hidden-xs">{{ request.session.name }}</span>
+            </a>
+            <ul class="dropdown-menu">
+              <!-- User image -->
+              <li class="user-header">
+                <img src="/static/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+
+                <p>
+                  {{ request.session.name }} - 运维工程师
+                  <small>Member since Jan. 2019</small>
+                </p>
+              </li>
+
+              <!-- Menu Footer-->
+              <li class="user-footer">
+                <div class="pull-left">
+                  <a href="#" class="btn btn-default btn-flat">配置</a>
+                </div>
+                <div class="pull-right">
+                  <a href="/logout/" class="btn btn-default btn-flat">退出</a>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <!-- Control Sidebar Toggle Button -->
+          <li>
+            <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+          </li>
+        </ul>
+      </div>
+
+    </nav>
+  </header>
+  <!-- Left side column. contains the logo and sidebar -->
+  <aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+      <!-- Sidebar user panel -->
+      <div class="user-panel">
+        <div class="pull-left image">
+          <img src="/static/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+        </div>
+        <div class="pull-left info">
+          <p>小贰</p>
+          <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+        </div>
+      </div>
+      <!-- search form -->
+      <form action="#" method="get" class="sidebar-form">
+        <div class="input-group">
+          <input type="text" name="q" class="form-control" placeholder="Search...">
+          <span class="input-group-btn">
+                <button type="submit" name="search" id="search-btn" class="btn btn-flat">
+                  <i class="fa fa-search"></i>
+                </button>
+              </span>
+        </div>
+      </form>
+      <!-- /.search form -->
+      <!-- sidebar menu: : style can be found in sidebar.less -->
+      <ul class="sidebar-menu" data-widget="tree">
+        <li class="header">菜单导航</li>
+
+          {% for i in request.session.menu_list %}
+        <li class="treeview">
+          <a href="{{ i.perms_url }}">
+            <i class="fa {{ i.perms_img }}"></i> <span>{{ i.perms }}</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu treeview-padding" style="padding-left: 20px">
+              {% for j in i.two_menu %}
+                <li ><a href="{{ j.perms_url }}"><i class="fa {{ j.perms_img }}"></i>{{ j.perms }}</a></li>
+              {% endfor %}
+          </ul>
+        </li>
+
+          {% endfor %}
+
+        <!--
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-table"></i>
+            <span>资产管理</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu treeview-padding">
+            <li><a href="/cmdb/asset/"><i class="fa fa-angle-right"></i>资产</a></li>
+            <li><a href="/cmdb/group/"><i class="fa fa-angle-right"></i>分组</a></li>
+            <li><a href="/cmdb/idc/"><i class="fa fa-angle-right"></i>机房</a></li>
+            <li><a href="/cmdb/changshang/"><i class="fa fa-angle-right"></i>厂商</a></li>
+          </ul>
+        </li>
+
+
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-pie-chart"></i>
+            <span>发布管理</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu treeview-padding">
+            <li><a href="pages/charts/chartjs.html"><i class="fa fa-angle-right"></i>项目分组</a></li>
+            <li><a href="pages/charts/morris.html"><i class="fa fa-angle-right"></i>项目代码</a></li>
+            <li><a href="pages/charts/flot.html"><i class="fa fa-angle-right"></i>项目发布</a></li>
+            <li><a href="pages/charts/inline.html"><i class="fa fa-angle-right"></i>发布记录</a></li>
+          </ul>
+        </li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-laptop"></i>
+            <span>运维管理</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu treeview-padding">
+            <li><a href="pages/UI/general.html"><i class="fa fa-angle-right"></i>环境部署</a></li>
+            <li><a href="pages/UI/icons.html"><i class="fa fa-angle-right"></i>批量管理</a></li>
+          </ul>
+        </li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-wrench"></i> <span>运维工具</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu treeview-padding">
+            <li><a href="pages/forms/general.html"><i class="fa fa-angle-right"></i>phpMyadmin</a></li>
+            <li><a href="pages/forms/advanced.html"><i class="fa fa-angle-right"></i>zabbix</a></li>
+            <li><a href="pages/forms/editors.html"><i class="fa fa-angle-right"></i>ELK</a></li>
+          </ul>
+        </li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-line-chart"></i> <span>监控管理</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu treeview-padding">
+            <li><a href="pages/forms/general.html"><i class="fa fa-angle-right"></i>监控配置</a></li>
+            <li><a href="pages/forms/advanced.html"><i class="fa fa-angle-right"></i>添加监控</a></li>
+          </ul>
+        </li>
+
+        <li>
+          <a href="pages/widgets.html">
+            <i class="fa fa-share"></i> <span>堡垒机</span>
+            <span class="pull-right-container">
+              <small class="label pull-right bg-green">new</small>
+            </span>
+          </a>
+        </li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-database"></i> <span>数据库管理</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu treeview-padding">
+            <li><a href="pages/tables/simple.html"><i class="fa fa-angle-right"></i>数据库</a></li>
+            <li><a href="pages/tables/data.html"><i class="fa fa-angle-right"></i>Inception</a></li>
+            <li><a href="pages/tables/data.html"><i class="fa fa-angle-right"></i>变更申请</a></li>
+            <li><a href="pages/tables/data.html"><i class="fa fa-angle-right"></i>工单处理</a></li>
+          </ul>
+        </li>
+
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-text-width"></i> <span>日志报告</span>
+            <span class="pull-right-container">
+              <small class="label pull-right bg-red">3</small>
+              <small class="label pull-right bg-blue">17</small>
+            </span>
+          </a>
+          <ul class="treeview-menu treeview-padding">
+            <li><a href="pages/examples/invoice.html"><i class="fa fa-angle-right"></i>任务记录</a></li>
+            <li><a href="pages/examples/profile.html"><i class="fa fa-angle-right"></i>堡垒机审计</a></li>
+            <li><a href="pages/examples/profile.html"><i class="fa fa-angle-right"></i>用户日志</a></li>
+            <li><a href="pages/examples/profile.html"><i class="fa fa-angle-right"></i>故障报告</a></li>
+          </ul>
+        </li>
+
+
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-th"></i> <span>系统管理</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu treeview-padding">
+            <li><a href="/rbac/user/"><i class="fa fa-angle-right"></i>用户管理</a></li>
+            <li><a href="/rbac/role/"><i class="fa fa-angle-right"></i>角色管理</a></li>
+            <li><a href="/rbac/perms/"><i class="fa fa-angle-right"></i>权限管理</a></li>
+          </ul>
+        </li>
+        -->
+      </ul>
+    </section>
+    <!-- /.sidebar -->
+  </aside>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        AnsbOps
+        <small></small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="/"><i class="fa fa-angle-double-right"></i> AnsbOps</a></li>
+        <li class="active">{{ caption }}</li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      {% block center %}
+      <!-- 信息盒子 -->
+      <div class="row">
+        <div class="col-md-3 col-sm-6 col-xs-12">
+          <div class="info-box">
+            <span class="info-box-icon bg-aqua"><i class="fa fa-server"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">资产数量</span>
+              <a class="info-box-number" href="/cmdb/asset/">{{ asset_count }}<small>台</small></a>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-md-3 col-sm-6 col-xs-12">
+          <div class="info-box">
+            <span class="info-box-icon bg-green"><i class="fa fa-server"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">运行中</span>
+              <a class="info-box-number" href="/cmdb/asset/">{{ run_count }}<small>台</small></a>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+
+        <!-- fix for small devices only -->
+        <div class="clearfix visible-sm-block"></div>
+
+        <div class="col-md-3 col-sm-6 col-xs-12">
+          <div class="info-box">
+            <span class="info-box-icon bg-red"><i class="fa fa-fire"></i></span>
+
+            <div class="info-box-content">
+              <span class="info-box-text">异常</span>
+              <a class="info-box-number" href="/cmdb/asset/">{{ abnormal_count }}</a>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-md-3 col-sm-6 col-xs-12">
+          <div class="info-box">
+            <span class="info-box-icon bg-yellow"><i class="fa fa-tasks"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">任务</span>
+              <span class="info-box-number">0</span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- 主体内容 -->
+      <div class="row">
+        <!-- Left col -->
+        <div class="col-md-8">
+          <!-- MAP & BOX PANE -->
+          <div class="box box-success">
+            <div class="box-header with-border">
+              <h3 class="box-title">zabbix 告警</h3>
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+              </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body no-padding">
+              <div class="row" style="margin-bottom: 20px">
+                  <div class="pad">
+                    <!-- Map will be created here -->
+                    <div id="world-map-markers" style="max-height: 325px;">
+                        <div class="col-sm-2" style="padding-bottom: 5px">
+                            <lable>时间</lable>
+                        </div >
+                        <div class="col-sm-2" style="padding-bottom: 5px">
+                            <lable>服务器</lable>
+                        </div >
+                        <div class="col-sm-8" style="padding-bottom: 5px">
+                            <lable>问题</lable>
+                        </div >
+                        {% for i in zabbix_problem %}
+                            {% if i.3 == "0" %}
+                        <div class="col-sm-2" style="padding-bottom: 5px">
+                            <div class="skillbar">{{ i.0 }}</div>
+                        </div >
+                        <div class="col-sm-2" style="padding-bottom: 5px">
+                            <div class="skillbar">{{ i.1 }}</div>
+                        </div >
+                        <div class="col-sm-8" style="padding-bottom: 5px;width: 60%">
+                            <div class="skillbar" style="background-color: #97AAB3">{{ i.2 }}</div>
+                        </div >
+                        {% elif i.3 == "1" %}
+
+                        <div class="col-sm-2" style="padding-bottom: 5px">
+                            <div class="skillbar">{{ i.0 }}</div>
+                        </div >
+                        <div class="col-sm-2" style="padding-bottom: 5px">
+                            <div class="skillbar">{{ i.1 }}</div>
+                        </div >
+                        <div class="col-sm-8" style="padding-bottom: 5px;width: 60%">
+                            <div class="skillbar" style="background-color: #7499FF">{{ i.2 }}</div>
+                        </div >
+
+                        {% elif i.3 == "2" %}
+                        <div class="col-sm-2" style="padding-bottom: 5px">
+                            <div class="skillbar">{{ i.0 }}</div>
+                        </div >
+                        <div class="col-sm-2" style="padding-bottom: 5px">
+                            <div class="skillbar">{{ i.1 }}</div>
+                        </div >
+                        <div class="col-sm-8" style="padding-bottom: 5px;width: 60%">
+                            <div class="skillbar" style="background-color: #FFC859">{{ i.2 }}</div>
+                        </div >
+
+                         {% elif i.3 == "3" %}
+                        <div class="col-sm-2" style="padding-bottom: 5px">
+                            <div class="skillbar">{{ i.0 }}</div>
+                        </div >
+                        <div class="col-sm-2" style="padding-bottom: 5px">
+                            <div class="skillbar">{{ i.1 }}</div>
+                        </div >
+                        <div class="col-sm-8" style="padding-bottom: 5px;width: 60%">
+                            <div class="skillbar" style="background-color: #FFA059">{{ i.2 }}</div>
+                        </div >
+
+                        {% elif i.3 == "4" %}
+                        <div class="col-sm-2" style="padding-bottom: 5px">
+                            <div class="skillbar">{{ i.0 }}</div>
+                        </div >
+                        <div class="col-sm-2" style="padding-bottom: 5px">
+                            <div class="skillbar">{{ i.1 }}</div>
+                        </div >
+                        <div class="col-sm-8" style="padding-bottom: 5px;width: 60%">
+                            <div class="skillbar" style="background-color: #E97659">{{ i.2 }}</div>
+                        </div >
+                        {% elif i.3 == "5" %}
+
+                        <div class="col-sm-2" style="padding-bottom: 5px">
+                            <div class="skillbar">{{ i.0 }}</div>
+                        </div >
+                        <div class="col-sm-2" style="padding-bottom: 5px">
+                            <div class="skillbar">{{ i.1 }}</div>
+                        </div >
+                        <div class="col-sm-8" style="padding-bottom: 5px;width: 60%">
+                            <div class="skillbar" style="background-color: #E45959">{{ i.2 }}</div>
+                        </div >
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                  </div>
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="box box-info">
+            <div class="box-header with-border">
+              <h3 class="box-title">任务列表</h3>
+
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+              </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <div class="table-responsive">
+                <table class="table no-margin">
+                  <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>任务</th>
+                    <th>状态</th>
+                    <th>时间</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                    <td><a href="pages/examples/invoice.html">1</a></td>
+                    <td>部署LNMP</td>
+                    <td><span class="label label-success">完成</span></td>
+                    <td>
+                      <div class="sparkbar" data-color="#00a65a" data-height="20">2019-03-15 21:30:04</div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><a href="pages/examples/invoice.html">2</a></td>
+                    <td>安装数据库</td>
+                    <td><span class="label label-warning">完成</span></td>
+                    <td>
+                      <div class="sparkbar" data-color="#f39c12" data-height="20">2019-03-15 21:30:04</div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><a href="pages/examples/invoice.html">3</a></td>
+                    <td>删除项目</td>
+                    <td><span class="label label-warning">完成</span></td>
+                    <td>
+                      <div class="sparkbar" data-color="#f39c12" data-height="20">2019-03-15 21:30:04</div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><a href="pages/examples/invoice.html">4</a></td>
+                    <td>版本更新</td>
+                    <td><span class="label label-danger">失败</span></td>
+                    <td>
+                      <div class="sparkbar" data-color="#f56954" data-height="20">2019-03-15 21:30:04</div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><a href="pages/examples/invoice.html">5</a></td>
+                    <td>同步资产信息</td>
+                    <td><span class="label label-success">完成</span></td>
+                    <td>
+                      <div class="sparkbar" data-color="#00a65a" data-height="20">2019-03-15 21:30:04</div>
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.table-responsive -->
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer clearfix">
+              <a href="javascript:void(0)" class="btn btn-sm btn-default btn-flat pull-right">View All Orders</a>
+            </div>
+            <!-- /.box-footer -->
+          </div>
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+
+        <div class="col-md-4">
+          <!-- 资产分组 -->
+          <div class="box box-default">
+            <div class="box-header with-border">
+              <h3 class="box-title">资产分组</h3>
+
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+              </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="chart-responsive">
+                    <canvas id="assetChart" height="250px" width="550px"></canvas>
+                  </div>
+                  <!-- ./chart-responsive -->
+                </div>
+              </div>
+              <!-- /.row -->
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer no-padding">
+            </div>
+            <!-- /.footer -->
+          </div>
+          <!-- /.box -->
+
+          <!-- 用户操作 -->
+          <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">用户操作</h3>
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+              </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <ul class="products-list product-list-in-box">
+                <li class="item">
+                  <div class="product-img">
+                    <img src="/static/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                  </div>
+                  <div class="product-info">
+                    <a href="javascript:void(0)" class="product-title">小贰
+                      <span class="label label-warning pull-right">成功</span></a>
+                    <span class="product-description">
+                          删除资产
+                        </span>
+                  </div>
+                </li>
+                <!-- /.item -->
+                <li class="item">
+                  <div class="product-img">
+                    <img src="/static/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                  </div>
+                  <div class="product-info">
+                    <a href="javascript:void(0)" class="product-title">小贰
+                      <span class="label label-info pull-right">成功</span></a>
+                    <span class="product-description">
+                          执行命令
+                        </span>
+                  </div>
+                </li>
+                <!-- /.item -->
+                <li class="item">
+                  <div class="product-img">
+                    <img src="/static/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                  </div>
+                  <div class="product-info">
+                    <a href="javascript:void(0)" class="product-title">测试
+                        <span class="label label-danger pull-right">失败</span></a>
+                    <span class="product-description">
+                          删除资产
+                        </span>
+                  </div>
+                </li>
+                <!-- /.item -->
+                <li class="item">
+                  <div class="product-img">
+                    <img src="/static/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                  </div>
+                  <div class="product-info">
+                    <a href="javascript:void(0)" class="product-title">测试
+                      <span class="label label-success pull-right">成功</span></a>
+                    <span class="product-description">
+                          查看资产详细信息
+                        </span>
+                  </div>
+                </li>
+                <!-- /.item -->
+              </ul>
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer text-center">
+              <a href="javascript:void(0)" class="uppercase">View All Products</a>
+            </div>
+            <!-- /.box-footer -->
+          </div>
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+      </div>
+        
+      {% endblock %} 
+    
+       {% block modal %}
+       {% endblock %}
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+
+
+  <!-- 底部信息 -->
+
+  <footer class="main-footer">
+    <div class="pull-right hidden-xs">
+      <b>Version</b> 1.1.0
+    </div>
+    <strong>AnsbOps create in 2019-03-01</strong>
+  </footer>
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- 右侧隐藏信息栏导航 -->
+    <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
+      <li><a href="#control-sidebar-test-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
+      <li><a href="#control-sidebar-wrench-tab" data-toggle="tab"><i class="fa fa-cog"></i></a></li>
+      <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
+    </ul>
+    <!-- 右侧隐藏信息栏内容 -->
+    <div class="tab-content">
+      <!-- Home tab content -->
+      <div class="tab-pane" id="control-sidebar-test-tab">
+        <form method="post">
+          <h3 class="control-sidebar-heading">1</h3>
+
+          <div class="form-group">
+            <label class="control-sidebar-subheading">
+              报告面板的使用
+              <input type="checkbox" class="pull-right" checked>
+            </label>
+
+            <p>
+              有关此通用设置选项的一些信息
+            </p>
+          </div>
+          <!-- /.form-group -->
+
+          <div class="form-group">
+            <label class="control-sidebar-subheading">
+              Allow mail redirect
+              <input type="checkbox" class="pull-right" checked>
+            </label>
+
+            <p>
+              Other sets of options are available
+            </p>
+          </div>
+          <!-- /.form-group -->
+
+          <div class="form-group">
+            <label class="control-sidebar-subheading">
+              Expose author name in posts
+              <input type="checkbox" class="pull-right" checked>
+            </label>
+
+            <p>
+              Allow the user to show his name in blog posts
+            </p>
+          </div>
+          <!-- /.form-group -->
+
+          <h3 class="control-sidebar-heading">Chat Settings</h3>
+
+          <div class="form-group">
+            <label class="control-sidebar-subheading">
+              Show me as online
+              <input type="checkbox" class="pull-right" checked>
+            </label>
+          </div>
+          <!-- /.form-group -->
+
+          <div class="form-group">
+            <label class="control-sidebar-subheading">
+              Turn off notifications
+              <input type="checkbox" class="pull-right">
+            </label>
+          </div>
+          <!-- /.form-group -->
+
+          <div class="form-group">
+            <label class="control-sidebar-subheading">
+              Delete chat history
+              <a href="javascript:void(0)" class="text-red pull-right"><i class="fa fa-trash-o"></i></a>
+            </label>
+          </div>
+          <!-- /.form-group -->
+        </form>
+      </div>
+      <!-- /.tab-pane -->
+      <div class="tab-pane" id="control-sidebar-wrench-tab">
+        <form method="post">
+          <h3 class="control-sidebar-heading">2</h3>
+
+          <div class="form-group">
+            <label class="control-sidebar-subheading">
+              报告面板的使用
+              <input type="checkbox" class="pull-right" checked>
+            </label>
+
+            <p>
+              有关此通用设置选项的一些信息
+            </p>
+          </div>
+          <!-- /.form-group -->
+
+          <div class="form-group">
+            <label class="control-sidebar-subheading">
+              Allow mail redirect
+              <input type="checkbox" class="pull-right" checked>
+            </label>
+
+            <p>
+              Other sets of options are available
+            </p>
+          </div>
+          <!-- /.form-group -->
+
+          <div class="form-group">
+            <label class="control-sidebar-subheading">
+              Expose author name in posts
+              <input type="checkbox" class="pull-right" checked>
+            </label>
+
+            <p>
+              Allow the user to show his name in blog posts
+            </p>
+          </div>
+          <!-- /.form-group -->
+
+          <h3 class="control-sidebar-heading">Chat Settings</h3>
+
+          <div class="form-group">
+            <label class="control-sidebar-subheading">
+              Show me as online
+              <input type="checkbox" class="pull-right" checked>
+            </label>
+          </div>
+          <!-- /.form-group -->
+
+          <div class="form-group">
+            <label class="control-sidebar-subheading">
+              Turn off notifications
+              <input type="checkbox" class="pull-right">
+            </label>
+          </div>
+          <!-- /.form-group -->
+
+          <div class="form-group">
+            <label class="control-sidebar-subheading">
+              Delete chat history
+              <a href="javascript:void(0)" class="text-red pull-right"><i class="fa fa-trash-o"></i></a>
+            </label>
+          </div>
+          <!-- /.form-group -->
+        </form>
+      </div>
+      <!-- Settings tab content -->
+      <div class="tab-pane" id="control-sidebar-settings-tab">
+        <form method="post">
+          <h3 class="control-sidebar-heading">常规设置</h3>
+
+          <div class="form-group">
+            <label class="control-sidebar-subheading">
+              报告面板的使用
+              <input type="checkbox" class="pull-right" checked>
+            </label>
+
+            <p>
+              有关此通用设置选项的一些信息
+            </p>
+          </div>
+          <!-- /.form-group -->
+
+          <div class="form-group">
+            <label class="control-sidebar-subheading">
+              Allow mail redirect
+              <input type="checkbox" class="pull-right" checked>
+            </label>
+
+            <p>
+              Other sets of options are available
+            </p>
+          </div>
+          <!-- /.form-group -->
+
+          <div class="form-group">
+            <label class="control-sidebar-subheading">
+              Expose author name in posts
+              <input type="checkbox" class="pull-right" checked>
+            </label>
+
+            <p>
+              Allow the user to show his name in blog posts
+            </p>
+          </div>
+          <!-- /.form-group -->
+
+          <h3 class="control-sidebar-heading">Chat Settings</h3>
+
+          <div class="form-group">
+            <label class="control-sidebar-subheading">
+              Show me as online
+              <input type="checkbox" class="pull-right" checked>
+            </label>
+          </div>
+          <!-- /.form-group -->
+
+          <div class="form-group">
+            <label class="control-sidebar-subheading">
+              Turn off notifications
+              <input type="checkbox" class="pull-right">
+            </label>
+          </div>
+          <!-- /.form-group -->
+
+          <div class="form-group">
+            <label class="control-sidebar-subheading">
+              Delete chat history
+              <a href="javascript:void(0)" class="text-red pull-right"><i class="fa fa-trash-o"></i></a>
+            </label>
+          </div>
+          <!-- /.form-group -->
+        </form>
+      </div>
+      <!-- /.tab-pane -->
+    </div>
+  </aside>
+  <!-- /.control-sidebar -->
+  <!-- Add the sidebar's background. This div must be placed
+       immediately after the control sidebar -->
+  <div class="control-sidebar-bg"></div>
+</div>
+<!-- jQuery 3 -->
+<script src="/static/jquery/dist/jquery.min.js"></script>
+<!-- Bootstrap 3.3.7 -->
+<script src="/static/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- AdminLTE App -->
+<script src="/static/dist/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="/static/dist/js/demo.js"></script>
+<script src="/static/dist/js/csrf.js"></script>
+<script src="/static/spop/dist/spop.min.js"></script>
+<script src="/static/mystyle/js/echarts.min.js"></script>
+<script>
+    //二级菜单展开
+    var title = "{{ caption }}";
+    $(".treeview-menu").find("a").each(function(){
+        if(title == $(this).text()){
+            $(this).parent().addClass("active");
+            $(this).parents('.treeview').addClass("menu-open active");
+            return false;
+        }
+    });
+    $.ajaxSetup({
+    　　data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+    });
+
+
+
+</script>
+{% block js %}
+<script>
+setTimeout("location.reload()",120000);
+
+var myChart = echarts.init(document.getElementById('assetChart'));
+var option = {
+    title : {
+        text: '资产分布',
+        subtext: '分组',
+        x:'center'
+    },
+
+    tooltip : {
+        trigger: 'item',
+        formatter: "{a} <br/>{b} : {c} ({d}%)"
+    },
+    legend: {
+        orient: 'vertical',
+        left: '',
+        data: {{ group_data|safe }},
+    },
+    series : [
+        {
+            name: '访问来源',
+            type: 'pie',
+            radius : '65%',
+            center: ['50%', '60%'],
+            data:{{ data_info|safe }},
+            itemStyle: {
+                emphasis: {
+                    shadowBlur: 10,
+                    shadowOffsetX: 0,
+                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+            },
+
+            label : {
+                normal : {
+                formatter: '{b}:{c}({d}%)',
+                textStyle : {
+                    fontWeight : 'normal',
+                    fontSize : 10
+                    }
+                }
+            }
+        }
+    ]
+};
+myChart.setOption(option);
+</script>
+
+{% endblock %}
+</body>
+</html>

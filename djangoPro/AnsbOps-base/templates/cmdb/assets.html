@@ -1,0 +1,423 @@
+{% extends "base/index.html" %}
+
+{% block center %}
+<!-- 信息盒子 -->
+<div class="panel panel-default center-top" style="margin-bottom:15px;min-width:1300px;">
+<div class="panel-heading">
+  <div class="row" style="padding-top:5px;padding-left:10px;">
+    <div class="col-sm-3" style="display:inline-block;margin-bottom:5px;">
+      <a href="javascript:;" class="btn btn-sm btn-success" data-toggle="modal" data-target="#assetModal">添加</a>
+      <a href="javascript:;" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#importModal">导入</a>
+      <a href="javascript:;" class="btn btn-sm btn-danger" id="delasset">删除</a>
+    </div>
+    <div class="col-sm-6" style="display:inline-block">
+      <div style="width:150px;display: inline-block;">
+        <select  class="form-control" id="select-idc">
+          <option value="asset_idc">机房</option>
+          {% for idc in idc_obj %}
+          <option value="{{ idc.id }}">{{ idc.idc_name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div style="width:150px;display: inline-block;">
+        <select  class="form-control" id="select-assetgroup">
+          <option value="asset_group">主机组</option>
+          {% for group in group_obj %}
+          <option value="{{ group.id }}">{{ group.group_name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div style="width:150px;display: inline-block;">
+          <select  id="select-device" class="form-control">
+              <option value="asset_type">设备类型</option>
+              <option value="服务器">服务器</option>
+              <option value="网络设备">网络设备</option>
+              <option value="存储设备">存储设备</option>
+              <option value="安全设备">安全设备</option>
+            </select>
+      </div>
+      <div style="width:150px;display: inline-block;">
+        <select  class="form-control" id="select-device">
+          <option value="asset_type">状态</option>
+          <option value="在线">在线</option>
+          <option value="异常">异常</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-sm-3" style="display:inline-block;">
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder="Search for..." id="search-key">
+        <span class="input-group-btn">
+            <button class="btn btn-primary" type="button" id="sub-search">搜索</button>
+            <button class="btn btn-success" type="button" style="margin-left:5px"  id="export-asset">导出</button>
+          </span>
+      </div><!-- /input-group -->
+    </div>
+  </div>
+</div>
+<div class="panel-body" id="asset-info">
+  <table class="table table-hover table-bordered" style="margin-top:5px;">
+    <thead>
+    <tr style="background-color: #f5f5f5;">
+      <th><input type="checkbox" id="ckb_head" name="check_box" /></th>
+      <th>IP</th>
+      <th>分组</th>
+      <th>描述</th>
+      <th>类型</th>
+      <th>厂商</th>
+      <th>机房</th>
+      <th>状态</th>
+      <th>到期日期</th>
+      <th>操作</th>
+    </tr>
+    </thead>
+    <tbody id="asset_table">
+    {% for i in data_list %}
+    <tr name="tbody">
+      <td><input id="{{ i.id  }}" type="checkbox" name="ckb"/></td>
+      <td>{{ i.asset_ip }}</td>
+      <td>{{ i.group.group_name }}</td>
+      <td>{{ i.asset_msg }}</td>
+      <td>{{ i.asset_type }}</td>
+      <td>{{ i.changshang.changshang }}</td>
+      <td>{{ i.idc.idc_name }}</td>
+        {% if i.asset_status == "在线" %}
+      <td style="color: green">{{ i.asset_status }}</td>
+        {% else %}
+            <td style="color: red">{{ i.asset_status }}</td>
+        {% endif %}
+      <td>{{ i.expire_time }}</td>
+      <td style="padding-left:5px;">
+        <a href="javascript:;" name="edit-asset" asset_id="{{ i.id }}" style="text-decoration:none;" data-toggle="tooltip" data-placement="left" title="修改"><span class="fa fa-pencil" ></span> </a>&nbsp;&nbsp;&nbsp;
+        <a href="/cmdb/assetdetail/{{ i.id }}/" name="info-asset" style="text-decoration:none;" data-toggle="tooltip" data-placement="top" title="详情信息"><span class="fa fa-info-circle"></span> </a>&nbsp;&nbsp;&nbsp;
+        <a href="javascript:;" name="del-asset"  asset_id="{{ i.id }}" style="text-decoration:none;" data-toggle="tooltip" data-placement="right" title="删除"><span class="fa fa-trash"></span> </a>&nbsp;&nbsp;
+        <!--
+        <a href="/tool/webssh/" target="_blank" name="connect-asset"  asset_id="{{ i.id }}" style="text-decoration:none;" data-toggle="tooltip" data-placement="right" title="webssh"><span class="fa fa-desktop"></span> </a>
+        -->
+      </td>
+    </tr>
+    {% endfor %}
+
+
+    </tbody>
+
+
+  </table>
+
+  <div class="text-right" style="margin-top:-30px;padding-right:9%">
+    <ul class="pagination" id="pager">
+      <li class="previous"><a href="/cmdb/asset/1/">首页</a></li>
+      {#上一页按钮开始#}
+      {# 如果当前页有上一页#}
+      {% if asset_list.has_previous %}
+      {#  当前页的上一页按钮正常使用#}
+      <li class="previous"><a href="/cmdb/asset/{{ asset_list.previous_page_number }}/">上一页</a></li>
+      {% else %}
+      {# 当前页的不存在上一页时,上一页的按钮不可用#}
+      <li class="previous disabled"><a href="javascript:;">上一页</a></li>
+      {% endif %}
+      {#上一页按钮结束#}
+      {# 页码开始#}
+      {% for num in page_list  %}
+          {% if num == currentPage %}
+          <li class="item active"><a href="/cmdb/asset/{{ num }}/">{{ num }}</a></li>
+          {% else %}
+          <li class="item"><a href="/cmdb/asset/{{ num }}/">{{ num }}</a></li>
+          {% endif %}
+      {% endfor %}
+      {#页码结束#}
+      {# 下一页按钮开始#}
+      {% if asset_list.has_next %}
+      <li class="next"><a href="/cmdb/asset/{{ asset_list.next_page_number }}/">下一页</a></li>
+      {% else %}
+      <li class="next disabled"><a href="javascript:;">下一页</a></li>
+      {% endif %}
+      <li class="previous"><a href="/cmdb/asset/{{ page_nums }}/">尾页</a></li>
+      {# 下一页按钮结束#}
+    </ul>
+  </div>
+
+</div>
+</div>
+
+
+{% endblock %}
+
+
+{% block modal %}
+
+
+<!--添加主机模态框-->
+<div class="modal fade" id="assetModal" tabindex="-1" role="dialog" aria-labelledby="assetModalLabel">
+<div class="modal-dialog" role="document">
+  <div class="modal-content" style="margin-top:100px;width: 750px;">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <h4 class="modal-title" id="assetModalLabel">添加资产</h4>
+    </div>
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label >设备IP</label>
+            <input  class="form-control"  placeholder="IP地址" id="asset-ip">
+          </div>
+          <div class="form-group">
+            <label>备注</label>
+            <input  class="form-control" placeholder="备注" id="asset-msg">
+          </div>
+            <div class="form-group">
+            <label>设备型号</label>
+            <input  class="form-control" placeholder="设备型号" id="asset-model">
+          </div>
+          <div class="form-group">
+            <label>设备类型</label>
+            <select  id="asset-type" class="form-control">
+              <option value="服务器">服务器</option>
+              <option value="网络设备">网络设备</option>
+              <option value="存储设备">存储设备</option>
+              <option value="安全设备">安全设备</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>分组</label>
+            <select  id="asset-group" class="form-control">
+                <option value="0">未设置</option>
+                {% for i in group_obj %}
+                <option value="{{ i.id }}">{{ i.group_name }}</option>
+                {% endfor %}
+            </select>
+          </div>
+          <div class="form-group">
+            <label>IDC</label>
+            <select  id="asset-idc" class="form-control">
+                <option value="0">未设置</option>
+                {% for i in idc_obj %}
+                <option value="{{ i.id }}">{{ i.idc_name }}</option>
+                {% endfor %}
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label >厂商</label>
+            <select  id="asset-changshang" class="form-control">
+                <option value="0">未设置</option>
+                {% for i in changshang_obj %}
+                <option value="{{ i.id }}">{{ i.changshang }}</option>
+                {% endfor %}
+            </select>
+          </div>
+        </div>
+
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label>远程端口</label>
+            <input  class="form-control"  placeholder="远程端口" id="login-port">
+          </div>
+          <div class="form-group">
+            <label>管理账号</label>
+            <input  class="form-control"  placeholder="管理账号" id="login-user">
+          </div>
+          <div class="form-group">
+            <label>账号密码</label>
+            <input  class="form-control" type="password" placeholder="账号密码" id="login-passwd">
+          </div>
+            <div class="form-group">
+            <label>登陆方式</label>
+            <select  id="login-method" class="form-control">
+              <option value="SSH">SSH</option>
+              <option value="Telnet">Telnet</option>
+              <option value="RemoteDesktop">RemoteDesktop</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>序列号(SN)</label>
+            <input  class="form-control" placeholder="序列号" id="asset-sn">
+          </div>
+          <div class="form-group">
+            <label>购买日期</label>
+            <input  class="form-control" placeholder="购买日期" id="purchase-time">
+          </div>
+          <div class="form-group">
+            <label>过保日期</label>
+            <input  class="form-control" placeholder="过保日期" id="expire-time">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+      <button type="button" class="btn btn-primary" id="sub-asset">提交</button>
+    </div>
+  </div>
+</div>
+</div>
+
+<!--修改主机模态框-->
+<div class="modal fade" id="edit-assetModal" tabindex="-1" role="dialog" aria-labelledby="edit-assetModalLabel">
+<div class="modal-dialog" role="document">
+  <div class="modal-content" style="margin-top:100px;width: 750px;">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <h4 class="modal-title" id="edit-assetModalLabel">添加资产</h4>
+    </div>
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label >设备IP</label>
+            <input  class="form-control"  placeholder="IP地址" id="edit-asset-ip">
+          </div>
+          <div class="form-group">
+            <label>备注</label>
+            <input  class="form-control" placeholder="备注" id="edit-asset-msg">
+          </div>
+            <div class="form-group">
+            <label>设备型号</label>
+            <input  class="form-control" placeholder="设备型号" id="edit-asset-model">
+          </div>
+          <div class="form-group">
+            <label>设备类型</label>
+            <select  id="edit-asset-type" class="form-control">
+              <option value="服务器">服务器</option>
+              <option value="网络设备">网络设备</option>
+              <option value="存储设备">存储设备</option>
+              <option value="安全设备">安全设备</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>分组</label>
+            <select  id="edit-asset-group" class="form-control">
+                <option value="0">未设置</option>
+                {% for i in group_obj %}
+                <option value="{{ i.id }}">{{ i.group_name }}</option>
+                {% endfor %}
+            </select>
+          </div>
+          <div class="form-group">
+            <label>IDC</label>
+            <select  id="edit-asset-idc" class="form-control">
+                <option value="0">未设置</option>
+                {% for i in idc_obj %}
+                <option value="{{ i.id }}">{{ i.idc_name }}</option>
+                {% endfor %}
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label >厂商</label>
+            <select  id="edit-asset-changshang" class="form-control">
+                <option value="0">未设置</option>
+                {% for i in changshang_obj %}
+                <option value="{{ i.id }}">{{ i.changshang }}</option>
+                {% endfor %}
+            </select>
+          </div>
+        </div>
+
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label>远程端口</label>
+            <input  class="form-control"  placeholder="远程端口" id="edit-login-port">
+          </div>
+          <div class="form-group">
+            <label>管理账号</label>
+            <input  class="form-control"  placeholder="管理账号" id="edit-login-user">
+          </div>
+          <div class="form-group">
+            <label>账号密码</label>
+            <input  class="form-control" type="password" placeholder="账号密码" id="edit-login-passwd">
+          </div>
+            <div class="form-group">
+            <label>登陆方式</label>
+            <select  id="edit-login-method" class="form-control">
+              <option value="SSH">SSH</option>
+              <option value="Telnet">Telnet</option>
+              <option value="RemoteDesktop">RemoteDesktop</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>序列号(SN)</label>
+            <input  class="form-control" placeholder="序列号" id="edit-asset-sn">
+          </div>
+          <div class="form-group">
+            <label>购买日期</label>
+            <input  class="form-control" placeholder="购买日期" id="edit-purchase-time">
+          </div>
+          <div class="form-group">
+            <label>过保日期</label>
+            <input  class="form-control" placeholder="过保日期" id="edit-expire-time">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+      <button type="button" class="btn btn-primary" id="sub-edit-asset">提交</button>
+    </div>
+  </div>
+</div>
+</div>
+
+
+<div class="modal fade" id="importModal" tabindex="-1" role="dialog" aria-labelledby="importModalLabel">
+<div class="modal-dialog" role="document">
+  <div class="modal-content" style="margin-top:150px;">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <h4 class="modal-title" id="importModalLabel">导入服务器信息</h4>
+    </div>
+    <div class="modal-body" style="height: 54px;">
+      <form method="post" action="/asset/importasset/" enctype="multipart/form-data">
+        <input id="lefile" type="file" style="display:none" name="upload_file">
+        <div class="input-group" style="margin-bottom: 10px;">
+          <input id="photoCover" class="input-large form-control" type="text">
+          <span class="input-group-btn">
+            <a class="btn btn-success" onclick="$('input[id=lefile]').click();">选择</a>
+            <a class="btn btn-success" href="/static/template_dl/import_asset.xlsx" >模版下载</a>
+          </span>
+        </div>
+        <button type="submit" class="btn btn-primary pull-right form-control" id="sub-import-asset">提交</button>
+      </form>
+    </div>
+    <div class="modal-footer">
+
+    </div>
+  </div>
+</div>
+</div>
+
+
+<div class="modal fade" id="exportModal" tabindex="-1" role="dialog" aria-labelledby="importModalLabe">
+<div class="modal-dialog" role="document">
+  <div class="modal-content" style="margin-top:150px;">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <h4 class="modal-title" id="importModalLabe">导出成功</h4>
+    </div>
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <a class="btn btn-success" href="/static/media/cmdb.xlsx">点此下载</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+
+    </div>
+  </div>
+</div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript" src="/static/mystyle/js/asset.js"></script>
+
+{% endblock %}

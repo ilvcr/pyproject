@@ -1,0 +1,8 @@
+*.pyc
+/.idea/
+/_windows/
+/statics/download/
+/statics/media/
+/statics/upload/
+/venv/
+/codestyles/

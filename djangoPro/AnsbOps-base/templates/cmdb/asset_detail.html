@@ -1,0 +1,396 @@
+﻿{% extends "base/index.html" %}
+
+{% block css %}
+    <style>
+        .skillbar {
+            position: relative;
+            display: block;
+            width: 100%;
+            padding-top: 5px;
+            padding-left: 10px;
+            cursor: pointer;
+            height: 32px;
+            background-color: #ecf0f5;
+        }
+    .my-sm-3 {
+            width: 20%;
+            position: relative;
+            min-height: 1px;
+            padding-right: 15px;
+            padding-left: 15px;
+            float: left;
+        }
+
+        .div-overflow{white-space:nowrap;text-overflow:ellipsis;word-break:break-all;overflow:hidden;}
+    </style>
+{% endblock %}
+
+{% block center %}
+
+<!--用户信息-->
+  <div class="panel-body" id="asset-info" style="max-height:730px;overflow:auto">
+    <div class="box box-success">
+        <div class="box-header with-border">
+          <h3 class="box-title">基本信息</h3>
+          <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+          </div>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body no-padding">
+          <div class="row" style="padding-bottom: 20px">
+              <div id="world-map-markers" style="height: auto;padding: 20px;">
+                <div class="col-sm-2" style="padding-bottom: 5px">
+                     <label>资产ID</label>
+                    <div class="skillbar">{{ asset_obj.id }}</div>
+                </div >
+                <div class="col-sm-2" style="padding-bottom: 5px">
+                     <label>资产IP</label>
+                    <div class="skillbar">{{ asset_obj.asset_ip }}</div>
+                </div >
+                  <div class="col-sm-2" style="padding-bottom: 5px">
+                     <label>序列号(SN)</label>
+                    <div class="skillbar">{{ asset_obj.asset_sn }}</div>
+                </div >
+                  <div class="col-sm-2" style="padding-bottom: 5px">
+                     <label>资产类型</label>
+                    <div class="skillbar">{{ asset_obj.asset_type }}</div>
+                </div >
+                  <div class="col-sm-2" style="padding-bottom: 5px">
+                     <label>资产型号</label>
+                    <div class="skillbar">{{ asset_obj.asset_model }}</div>
+                </div >
+                  <div class="col-sm-2" style="padding-bottom: 5px">
+                     <label>备注</label>
+                    <div class="skillbar">{{ asset_obj.asset_msg }}</div>
+                </div >
+                  <div class="col-sm-2" style="padding-bottom: 5px">
+                     <label>状态</label>
+                    <div class="skillbar">{{ asset_obj.asset_status }}</div>
+                </div >
+                  <div class="col-sm-2" style="padding-bottom: 5px">
+                     <label>购买时间</label>
+                    <div class="skillbar">{{ asset_obj.purchase_time }}</div>
+                </div >
+                  <div class="col-sm-2" style="padding-bottom: 5px">
+                     <label>过期时间</label>
+                    <div class="skillbar">{{ asset_obj.expire_time }}</div>
+                </div >
+
+                  <div class="col-sm-2" style="padding-bottom: 5px">
+                     <label>分组</label>
+                    <div class="skillbar">{{ asset_obj.group.group_name }}</div>
+                </div >
+                <div class="col-sm-2" style="padding-bottom: 5px">
+                     <label>机房</label>
+                    <div class="skillbar">{{ asset_obj.idc.idc_name }}</div>
+                </div >
+                  <div class="col-sm-2" style="padding-bottom: 5px">
+                     <label>厂商</label>
+                    <div class="skillbar">{{ asset_obj.changshang.changshang }}</div>
+                </div >
+
+              </div>
+            <!-- /.col -->
+          </div>
+          <!-- /.row -->
+        </div>
+        <!-- /.box-body -->
+      </div>
+
+    <div class="box box-success">
+        <div class="box-header with-border">
+          <h3 class="box-title">主体信息</h3>
+          <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+          </div>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body no-padding">
+          <div class="row" style="padding-bottom: 20px">
+              <div id="world-map-markers" style="height: auto;padding: 20px;">
+                <div class="col-sm-2" style="padding-bottom: 5px">
+                     <label>服务器类型</label>
+                    <div class="skillbar">{{ os_obj.product_name }}</div>
+                </div >
+                <div class="col-sm-2" style="padding-bottom: 5px">
+                     <label>管理用户</label>
+                    <div class="skillbar">{{ login_obj.login_user }}</div>
+                </div >
+                  <div class="col-sm-2" style="padding-bottom: 5px">
+                     <label>登陆方式</label>
+                    <div class="skillbar">{{ login_obj.login_method }}</div>
+                </div >
+                  <div class="col-sm-2" style="padding-bottom: 5px">
+                     <label>端口</label>
+                    <div class="skillbar">{{ login_obj.login_port }}</div>
+                </div >
+                  <div class="col-sm-2" style="padding-bottom: 5px">
+                     <label>主机名</label>
+                    <div class="skillbar">{{ os_obj.hostname }}</div>
+                </div >
+                  <div class="col-sm-2" style="padding-bottom: 5px">
+                     <label>系统类型</label>
+                    <div class="skillbar">{{ os_obj.os_type }}</div>
+                </div >
+                  <div class="col-sm-2" style="padding-bottom: 5px">
+                     <label>系统版本</label>
+                    <div class="skillbar">{{ os_obj.os_version }}</div>
+                </div >
+                  <div class="col-sm-2" style="padding-bottom: 5px">
+                     <label>内核版本</label>
+                    <div class="skillbar">{{ os_obj.kernel_version }}</div>
+                </div >
+                  <div class="col-sm-2" style="padding-bottom: 5px">
+                     <label>CPU 型号</label>
+                    <div class="skillbar div-overflow">{{ os_obj.cpu_model }}</div>
+                </div >
+                <div class="col-sm-2" style="padding-bottom: 5px">
+                     <label>CPU 核数</label>
+                    <div class="skillbar">{{ os_obj.cpu_core_count }}</div>
+                </div >
+
+                 <div class="col-sm-2" style="padding-bottom: 5px">
+                     <label>内存容量</label>
+                    <div class="skillbar">{{ os_obj.mem_size }}</div>
+                </div >
+
+              </div>
+            <!-- /.col -->
+          </div>
+          <!-- /.row -->
+        </div>
+        <!-- /.box-body -->
+      </div>
+
+    <div class="box box-success">
+        <div class="box-header with-border">
+          <h3 class="box-title">网卡信息</h3>
+          <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+          </div>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body no-padding">
+          <div class="row" style="padding-bottom: 20px">
+              <div id="world-map-markers" style="height: auto;padding: 20px;">
+                <div class="col-sm-2" style="padding-bottom: 5px">
+                     <label>网卡名称</label>
+                </div >
+                <div class="col-sm-2" style="padding-bottom: 5px">
+                     <label>IP地址</label>>
+                </div >
+                  <div class="col-sm-2" style="padding-bottom: 5px">
+                     <label>MAC地址</label>
+                </div >
+                  <div class="col-sm-2" style="padding-bottom: 5px">
+                     <label>MASK掩码</label>
+                </div >
+                  <div class="col-sm-2" style="padding-bottom: 5px">
+                     <label>MTU</label>
+                </div >
+                  <div class="col-sm-2" style="padding-bottom: 5px">
+                     <label>网卡类型</label>
+                </div >
+                 {% for i in nic_obj %}
+                <div class="col-sm-2" style="padding-bottom: 5px">
+                    <div class="skillbar">{{ i.name }}</div>
+                </div >
+                <div class="col-sm-2" style="padding-bottom: 5px">
+                    <div class="skillbar">{{ i.ip_address }}</div>
+                </div >
+                  <div class="col-sm-2" style="padding-bottom: 5px">
+                    <div class="skillbar">{{ i.mac }}</div>
+                </div >
+                  <div class="col-sm-2" style="padding-bottom: 5px">
+                    <div class="skillbar">{{ i.net_mask }}</div>
+                </div >
+                  <div class="col-sm-2" style="padding-bottom: 5px">
+                    <div class="skillbar">{{ i.mtu }}</div>
+                </div >
+                  <div class="col-sm-2" style="padding-bottom: 5px">
+                    <div class="skillbar">{{ i.model }}</div>
+                </div >
+                  {% endfor %}
+              </div>
+            <!-- /.col -->
+          </div>
+          <!-- /.row -->
+        </div>
+        <!-- /.box-body -->
+      </div>
+
+    <div class="box box-success">
+        <div class="box-header with-border">
+          <h3 class="box-title">设备信息</h3>
+          <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+          </div>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body no-padding">
+          <div class="row" style="padding-bottom: 20px">
+              <div id="world-map-markers" style="height: auto;padding: 20px;">
+              <div class="col-sm-3" style="padding-bottom: 5px">
+                     <label>设备</label>
+                </div >
+                <div class="col-sm-3" style="padding-bottom: 5px">
+                     <label>容量</label>
+                </div >
+                  <div class="col-sm-3" style="padding-bottom: 5px">
+                     <label>类型</label>
+                </div >
+                  <div class="col-sm-3" style="padding-bottom: 5px">
+                     <label>接口</label>
+                </div >
+                  {% for  i in device_obj %}
+                <div class="col-sm-3" style="padding-bottom: 5px">
+                    <div class="skillbar">{{ i.device_name }}</div>
+                </div >
+                <div class="col-sm-3" style="padding-bottom: 5px">
+                    <div class="skillbar">{{ i.device_size }}</div>
+                </div >
+                  <div class="col-sm-3" style="padding-bottom: 5px">
+                    <div class="skillbar">{{ i.device_model }}</div>
+                </div >
+                  <div class="col-sm-3" style="padding-bottom: 5px">
+                    <div class="skillbar div-overflow" style="overflow:hidden">{{ i.interface_type }}</div>
+                </div >
+                  {% endfor %}
+              </div>
+            <!-- /.col -->
+          </div>
+          <!-- /.row -->
+        </div>
+        <!-- /.box-body -->
+      </div>
+
+      <div class="box box-success">
+        <div class="box-header with-border">
+          <h3 class="box-title">分区信息</h3>
+          <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+          </div>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body no-padding">
+          <div class="row" style="padding-bottom: 20px">
+              <div id="world-map-markers" style="height: auto;padding: 20px;">
+
+              <div class="my-sm-3" style="padding-bottom: 5px">
+                     <label>分区</label>
+
+                </div >
+                <div class="my-sm-3" style="padding-bottom: 5px">
+                     <label>挂载</label>
+
+                </div >
+                  <div class="my-sm-3" style="padding-bottom: 5px">
+                     <label>类型</label>
+
+                </div >
+                  <div class="my-sm-3" style="padding-bottom: 5px">
+                     <label>总大小</label>
+
+                </div >
+                  <div class="my-sm-3" style="padding-bottom: 5px">
+                     <label>可用大小</label>
+
+                </div >
+
+                  {% for i in  mount_obj %}
+                <div class="my-sm-3" style="padding-bottom: 5px">
+
+                    <div class="skillbar">{{ i.device }}</div>
+                </div >
+                <div class="my-sm-3" style="padding-bottom: 5px">
+
+                    <div class="skillbar">{{ i.mount }}</div>
+                </div >
+                  <div class="my-sm-3" style="padding-bottom: 5px">
+
+                    <div class="skillbar">{{ i.fstype }}</div>
+                </div >
+                  <div class="my-sm-3" style="padding-bottom: 5px">
+
+                    <div class="skillbar">{{ i.size_total }} KB</div>
+                </div >
+                  <div class="my-sm-3" style="padding-bottom: 5px">
+
+                    <div class="skillbar">{{ i.size_available }} KB</div>
+                </div >
+                  {% endfor %}
+              </div>
+            <!-- /.col -->
+          </div>
+          <!-- /.row -->
+        </div>
+        <!-- /.box-body -->
+      </div>
+
+    <div class="box box-success">
+        <div class="box-header with-border">
+          <h3 class="box-title">服务信息</h3>
+          <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+          </div>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body no-padding">
+          <div class="row" style="padding-bottom: 20px">
+              <div id="world-map-markers" style="height: auto;padding: 20px;">
+              <div class="col-sm-4" style="padding-bottom: 5px">
+                     <label>服务</label>
+                </div >
+                <div class="col-sm-4" style="padding-bottom: 5px">
+                     <label>端口</label>
+                </div >
+                <div class="col-sm-4" style="padding-bottom: 5px">
+                     <label>版本</label>
+                </div >
+                  {% for i in server_obj %}
+                <div class="col-sm-4" style="padding-bottom: 5px">
+                    <div class="skillbar">{{ i.server_name }}</div>
+                </div >
+                <div class="col-sm-4" style="padding-bottom: 5px">
+                    <div class="skillbar">{{ i.server_port }}</div>
+                </div >
+                <div class="col-sm-4" style="padding-bottom: 5px">
+                    <div class="skillbar">{{ i.server_version }}</div>
+                </div >
+                  {% endfor %}
+              </div>
+            <!-- /.col -->
+          </div>
+          <!-- /.row -->
+        </div>
+        <!-- /.box-body -->
+      </div>
+  </div>
+</div>
+
+{% endblock %}
+
+
+{% block js %}
+
+<script type='text/javascript'>
+
+</script>
+
+{% endblock %}
+
+
+
