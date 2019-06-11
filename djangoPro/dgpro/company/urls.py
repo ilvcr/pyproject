@@ -1,0 +1,30 @@
+#coding:utf-8
+from django.conf.urls import patterns, include, url
+from django.contrib import admin
+
+admin.autodiscover()
+
+urlpatterns = patterns('app.views',    
+    url(r'^$', 'index'),  
+    url(r'^faq$', 'faq'),
+    url(r'^faq/(?P<catid>\d{1,15})$', 'faq_cat_detail'),
+    url(r'^about$', 'about'),
+    url(r'^about/(?P<catid>\d{1,15})$', 'about_cat_detail'),
+    url(r'^service$', 'service'),
+    url(r'^service/(?P<catid>\d{1,15})$', 'service_cat_detail'),
+    url(r'^product$', 'products'),
+    url(r'^product/(?P<catid>\d{1,15})$', 'product_cat_detail'),
+    url(r'^download$', 'download'),
+    url(r'^download/(?P<catid>\d{1,15})$', 'download_cat_detail'),
+    url(r'^news/$', 'news'),
+    url(r'^news/(?P<newsid>\d{1,15})$', 'news_detail'),
+    
+    
+    
+    
+    url(r'^admin/', include(admin.site.urls)),
+#     url(r'^savecomment', 'addcomment'),
+#     url(r'^tags/(?P<category>.+)/(?P<mytag>.+)$', 'tags'),
+#     url(r'^search/$', 'search'),
+#     url(r'^message/$', 'me'),
+    )

@@ -1,0 +1,67 @@
+8
+
+dir
+22
+https://svn.duapp.com/appidvdsch547e0/1/app
+https://svn.duapp.com/appidvdsch547e0
+
+
+
+2013-11-25T13:30:11.840494Z
+5
+asuncool
+
+
+svn:special svn:externals svn:needs-lock
+
+admin.py
+file
+
+
+
+
+2013-11-24T06:27:03.531125Z
+e1aefaff49318a6236dcf7e94b4eae8a
+2013-11-25T13:30:11.840494Z
+5
+asuncool
+
+views.py
+file
+
+
+
+
+2013-11-24T07:08:13.062375Z
+90fa527c6e22b99b246880b7eda8c905
+2013-11-25T13:30:11.840494Z
+5
+asuncool
+
+__init__.py
+file
+
+
+
+
+2013-11-22T14:36:50.452625Z
+d41d8cd98f00b204e9800998ecf8427e
+2013-11-25T13:30:11.840494Z
+5
+asuncool
+
+models.py
+file
+
+
+
+
+2013-11-24T06:27:37.093625Z
+dae3f228b0c9057f9f39ed70552b1994
+2013-11-25T13:30:11.840494Z
+5
+asuncool
+
+templatetags
+dir
+
